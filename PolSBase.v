@@ -863,11 +863,27 @@ Implicit Arguments PEopp [C].
 
 (* Code taken from Ring *)
 
+(* Path to handle evar 
 Ltac IN a l :=
  match l with
  | (cons a ?l) => constr:true
  | (cons _ ?l) => IN a l
  |  nil => constr:false
+ end.
+*)
+
+Ltac term_eq t1 t2 :=
+  constr:(ltac:(first[constr_eq t1 t2; exact true| exact false])).
+
+Ltac IN a l :=
+ match l with
+ | (cons ?b ?l1) => 
+    let t := term_eq a b in
+    match t with
+    true => constr:true
+    | _ => IN a l1
+    end
+ |  nil => false
  end.
 
 Ltac AddFv a l :=
@@ -879,8 +895,12 @@ Ltac AddFv a l :=
 Ltac Find_at a l :=
  match l with
  | nil  => constr:xH
- | (cons a _) => constr:xH
- | (cons _ ?l) => let p := Find_at a l in eval compute in (Psucc p)
+ | (cons ?b ?l) => 
+     let t := term_eq a b in
+     match t with
+     | true =>  constr:xH
+     | false => let p := Find_at a l in eval compute in (Psucc p)
+     end
  end.
 		      
 Ltac FV Cst add mul sub opp t fv :=
