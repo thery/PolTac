@@ -34,12 +34,12 @@ end
 
 Ltac zpol_is_compare term :=
 match term with
-| (_ < _)%Z => constr:true
-| (_ > _)%Z => constr:true
-| (_ <= _)%Z => constr:true
-| (_ >= _)%Z => constr:true
-| (?X = _)%Z => match type of X with Z => constr:true end 
-| _ => constr:false
+| (_ < _)%Z => constr:(true)
+| (_ > _)%Z => constr:(true)
+| (_ <= _)%Z => constr:(true)
+| (_ >= _)%Z => constr:(true)
+| (?X = _)%Z => match type of X with Z => constr:(true) end 
+| _ => constr:(false)
 end.
 
 Ltac zpol_get_term dir term :=

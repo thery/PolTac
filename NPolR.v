@@ -35,12 +35,12 @@ end
 
 Ltac Npol_is_compare term :=
 match term with
-| (_ < _)%N => constr:true
-| (_ > _)%N => constr:true
-| (_ <= _)%N => constr:true
-| (_ >= _)%N => constr:true
-| (?X = _)%N => match type of X with N => constr:true end
-| _ => constr:false
+| (_ < _)%N => constr:(true)
+| (_ > _)%N => constr:(true)
+| (_ <= _)%N => constr:(true)
+| (_ >= _)%N => constr:(true)
+| (?X = _)%N => match type of X with N => constr:(true) end
+| _ => constr:(false)
 end.
 
 Ltac Npol_get_term dir term :=

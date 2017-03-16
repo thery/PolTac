@@ -27,7 +27,7 @@ Section AUXLIST.
 
 End AUXLIST.
 
-Implicit Arguments pos_nth [A].
+Arguments pos_nth [A] _ _ _.
 
  Ltac Trev l :=  
   let rec rev_append rev l :=

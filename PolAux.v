@@ -25,64 +25,64 @@ Definition Zgcd :=
 (* Check if a nat is a number *)
 Ltac is_NatCst p := 
   match p with
-  | O => constr:true
+  | O => constr:(true)
   | S ?p' => is_NatCst p'
-  | _ => constr:false
+  | _ => constr:(false)
 end.
  
 (* Convert a Z into a nat if it is a number *)
 Ltac NatCst t := 
   match is_NatCst t with
-  | false => constr:false
-  | _ => let res := eval compute in (Z_of_nat t) in constr:res 
+  | false => constr:(false)
+  | _ => let res := eval compute in (Z_of_nat t) in constr:(res) 
 end.
 
 
 (* Check if a number is a positive *)
 Ltac is_PCst p := 
   match p with
-  | xH => constr:true
+  | xH => constr:(true)
   | xO ?p' => is_PCst p'
   | xI ?p' => is_PCst p'
-  | _ => constr:false 
+  | _ => constr:(false) 
 end.
 
 (* Check if a N is a number *)
 Ltac is_NCst p := 
   match p with
-  | N0 => constr:true
+  | N0 => constr:(true)
   | Npos ?p' => is_PCst p'
-  | _ => constr:false
+  | _ => constr:(false)
 end.
  
 (* Convert a Z into a nat if it is a number *)
 Ltac NCst t := 
   match is_NCst t with
-  | false => constr:false
-  | _ => let res := eval compute in (Z_of_N t) in constr:res 
+  | false => constr:(false)
+  | _ => let res := eval compute in (Z_of_N t) in constr:(res) 
 end.
  
 (* If a number is an integer return itself otherwise false *)
 Ltac ZCst t := 
   match t with
-  | Z0 => constr:t
+  | Z0 => constr:(t)
   | Zpos ?p => match is_PCst p with
-               | false => constr:false
-               | _ => constr:t 
+               | false => constr:(false)
+               | _ => constr:(t)
                end
   | Zneg ?p => match is_PCst p with
-               | false => constr:false
-               | _ => constr:t 
+               | false => constr:(false)
+               | _ => constr:(t) 
                end
-  | _ => constr:false 
+  | _ => constr:(false) 
   end.
  
 (* Check if a number is an integer *)
 Ltac is_ZCst t := match t with
-                | Z0 => constr:true
+                | Z0 => constr:(true)
                 | Zpos ?p => is_PCst p 
                 | Zneg ?p => is_PCst p 
-                | _ => constr:false end.
+                | _ => constr:(false) end.
 
 
 (* Turn a positive into a real *)
@@ -110,34 +110,34 @@ Ltac RCst t :=
    | R1 => constr:(Zpos xH)
    | Rplus ?e1 ?e2 => 
        match (RCst e1) with
-        false => constr:false
+        false => constr:(false)
       | ?e3 => match (RCst e2) with
-                 false => constr:false
+                 false => constr:(false)
               |  ?e4 =>  eval compute in (Zplus e3  e4) 
               end
       end
    | Rminus ?e1 ?e2 => 
        match (RCst e1) with
-        false => constr:false
+        false => constr:(false)
       | ?e3 => match (RCst e2) with
-                 false => constr:false
+                 false => constr:(false)
               |  ?e4 => eval compute in (Zminus e3  e4)
               end
       end
    | Rmult ?e1 ?e2 => 
        match (RCst e1) with
-        false => constr:false
+        false => constr:(false)
       | ?e3 => match (RCst e2) with
-                 false => constr:false
+                 false => constr:(false)
               |  ?e4 => eval compute in (Zmult e3  e4)
               end
       end
    | Ropp ?e1 => 
        match (RCst e1) with
-        false => constr:false
+        false => constr:(false)
       | ?e3 => eval compute in (Zopp e3)
       end
-   | _ => constr:false
+   | _ => constr:(false)
  end.
 
 
@@ -176,7 +176,7 @@ Ltac clean_zabs_N term :=
 (* Equality test for Ltac *)
 
 Ltac eqterm t1 t2 :=
-  match constr:(t1,t2) with (?X, ?X) => true | _ => false end.
+  match constr:((t1,t2)) with (?X, ?X) => true | _ => false end.
 
 (* For replace *)
 

@@ -27,7 +27,7 @@ Ltac RCst0 t :=
        match (RCst0 e1) with
       | ?e3 => constr:(Zopp e3)
       end
-   | _ => constr:0%Z
+   | _ => constr:(0%Z)
  end.
 
 Ltac rground_tac := match goal with

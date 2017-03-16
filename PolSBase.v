@@ -853,12 +853,12 @@ Fixpoint convert_back (F : Set) (f : F) (Fadd Fsub Fmult : F -> F ->  F)
 
 End PolSimplBase.
 
-Implicit Arguments PEc [C].
-Implicit Arguments PEX [C].
-Implicit Arguments PEadd [C].
-Implicit Arguments PEsub [C].
-Implicit Arguments PEmul [C].
-Implicit Arguments PEopp [C].
+Arguments PEc [C].
+Arguments PEX [C].
+Arguments PEadd [C].
+Arguments PEsub [C].
+Arguments PEmul [C].
+Arguments PEopp [C].
 
 
 (* Code taken from Ring *)
@@ -880,7 +880,7 @@ Ltac IN a l :=
  | (cons ?b ?l1) => 
     let t := term_eq a b in
     match t with
-    true => constr:true
+    true => constr:(true)
     | _ => IN a l1
     end
  |  nil => false
@@ -888,17 +888,17 @@ Ltac IN a l :=
 
 Ltac AddFv a l :=
  match (IN a l) with
- | true => constr:l
+ | true => constr:(l)
  | _ => constr:(cons a l)
  end.
 
 Ltac Find_at a l :=
  match l with
- | nil  => constr:xH
+ | nil  => constr:(xH)
  | (cons ?b ?l) => 
      let t := term_eq a b in
      match t with
-     | true =>  constr:xH
+     | true =>  constr:(xH)
      | false => let p := Find_at a l in eval compute in (Psucc p)
      end
  end.
@@ -907,17 +907,17 @@ Ltac FV Cst add mul sub opp t fv :=
  let rec TFV t fv :=
   match t with
   | (add ?t1 ?t2) => 
-    let fv1 := TFV t1 fv in let fv2 := TFV t2 fv1 in constr:fv2
+    let fv1 := TFV t1 fv in let fv2 := TFV t2 fv1 in constr:(fv2)
   | (mul ?t1 ?t2) => 
-    let fv1 := TFV t1 fv in let fv2 := TFV t2 fv1 in constr:fv2
+    let fv1 := TFV t1 fv in let fv2 := TFV t2 fv1 in constr:(fv2)
   | (sub ?t1 ?t2) => 
-    let fv1 := TFV t1 fv in let fv2 := TFV t2 fv1 in constr:fv2
+    let fv1 := TFV t1 fv in let fv2 := TFV t2 fv1 in constr:(fv2)
   | (opp ?t1) => 
-    let fv1 := TFV t1 fv in constr:fv1
+    let fv1 := TFV t1 fv in constr:(fv1)
   | _ =>  
     match Cst t with
-    | false => let fv1 := AddFv t fv in constr:fv1
-    | _ => constr:fv
+    | false => let fv1 := AddFv t fv in constr:(fv1)
+    | _ => constr:(fv)
     end
   end 
  in TFV t fv.
