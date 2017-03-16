@@ -1,26 +1,31 @@
-A set of tactics to deal with inequalities in Coq over N, Z, R:
+## PolTac
 
-pols: simplification
+A set of tactics to deal with inequalities in Coq over N, Z and R:
 
-polf: factorization
-
-polr: replacement
+- `pols`: simplification
+- `polf`: factorization
+- `polr`: replacement
 
 To build:
-   make all
+
+```
+make all
+```
 
 To use it:
-   Require Import PolTac.
 
-Examples are in Nex.v Zex.v Rex.v
+```
+Require Import PolTac.
+```
 
-====================================
+## Examples
 
-A running example (polr_test2 in Rex.v).
+See `Nex.v`, `Zex.v` and `Rex.v`.
 
-========================================
+## Demo: a running example (`polr_test2` in `Rex.v`).
 
 
+```
 1 subgoal
 x : R
 y : R
@@ -32,7 +37,6 @@ H1 : y = u
 H2 : x + z < y
 ______________________________________(1/1)
 2 * y * t < x * t + t * u + z * t
-
 
 (*
     ------------------------------------------------------
@@ -69,7 +73,7 @@ H2 : x + z < y
 ______________________________________(1/1)
 x + y + z < 2 * y
 
-(* 
+(*
    ------------------------------------------------------
    | we use polr to bound x + y + z usgin H2            |
    ------------------------------------------------------
@@ -93,7 +97,7 @@ y + y <= 2 * y
    -------------------------------------------------------
 *)
 
-pols 
+pols
 
 2 subgoals
 ...
@@ -129,8 +133,7 @@ y + y <= 2 * y
 ...
 ______________________________________(1/1)
 0 <= 0
-
+```
 
 ----------------
 Laurent.Thery@sophia.inria.fr
-
