@@ -27,6 +27,10 @@ Ltac RCst0 t :=
        match (RCst0 e1) with
       | ?e3 => constr:(Zopp e3)
       end
+   | IZR ?e1 =>
+       match (ZCst e1) with
+       | ?e3 => e3
+       end
    | _ => constr:(0%Z)
  end.
 

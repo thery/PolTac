@@ -137,6 +137,12 @@ Ltac RCst t :=
         false => constr:(false)
       | ?e3 => eval compute in (Zopp e3)
       end
+   | IZR ?e1 => 
+       match (ZCst e1) with
+        false => constr:(false)
+      | ?e3 => e3
+      end
+
    | _ => constr:(false)
  end.
 
