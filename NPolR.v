@@ -104,7 +104,7 @@ match term with
    match goal with
      |- (?X <= ?Y)%N  =>
             let  t := Npol_replace_term (X <= Y)%N term dir1 dir2 occ false in
-               apply Nle_trans with t
+               apply N.le_trans with t
      |  |- (?X >= ?Y)%N =>
             let  t := Npol_replace_term (X >= Y)%N term dir1 dir2 occ false in
                apply Nge_trans with t
@@ -112,9 +112,9 @@ match term with
             let  t := Npol_replace_term G term dir1 dir2 occ false in
            match Npol_aux_dir term dir1 with
                 P.L =>
-                                    (apply Nlt_le_trans with t || apply Ngt_le_trans with t)
+                                    (apply N.lt_le_trans with t || apply Ngt_le_trans with t)
                |P.R =>
-                                    (apply Nle_lt_trans with t || apply Nle_gt_trans with t)
+                                    (apply N.le_lt_trans with t || apply Nle_gt_trans with t)
             end
    end
 end.
