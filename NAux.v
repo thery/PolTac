@@ -2,47 +2,7 @@ Require Export NArith.
 Require Import ZArith.
 
 Open Scope N_scope.
- 
-Definition Npred(n :N):N :=
-   match n with
-     |N0 => N0
-     |Npos p => match p with
-		  |xH => N0
-		  |_ => Npos (Ppred p)
-		end
-   end.
 
-
-
- Definition Nminus(n m:N):N :=
-   match n, m with
-     |N0, _ => N0
-     |_, N0 => n
-     |Npos p, Npos q =>  match Pminus_mask p q with
-			   |IsNeg => N0
-			   |IsNul => N0
-			   |IsPos p => Npos p
-			 end
-     end.
-
-
-
-
-Notation "x - y" := (Nminus x y) : N_scope.
-
-(*
-Definition  N_of_nat (n:nat) :=
-  match n with 
-   O => N0
- | S n1 => Npos (P_of_succ_nat n1)
-end.
-
-Definition nat_of_N (n: N) := 
-  match n with
-     N0 => O
-  | Npos p => nat_of_P p
-end.
-*)
 
 Theorem N_nat_correct: forall n, nat_of_N (N_of_nat n) = n.
 intros n; case n; simpl; auto.
@@ -56,12 +16,8 @@ intros n1 H; rewrite nat_of_P_succ_morphism; simpl.
 apply f_equal with (f:= Npos); apply P_of_succ_nat_o_nat_of_P_eq_succ.
 Qed.
 
-
-Definition Nle (x y:N) := ~(x?=y = Gt).
-Notation "x <= y" := (Nle x y) : N_scope.
-
 Theorem Nle_le: forall n  m, (nat_of_N n <= nat_of_N m)%nat -> n <= m.
-intros n m; case n; case m; unfold Nle; simpl; try (intros; discriminate).
+intros n m; case n; case m; unfold N.le; simpl; try (intros; discriminate).
 intros p; elim p using Pind; simpl.
 intros H1; inversion H1. 
 intros n1 _; rewrite nat_of_P_succ_morphism.
@@ -71,7 +27,7 @@ apply nat_of_P_gt_Gt_compare_morphism; auto.
 Qed.
 
 Theorem le_Nle: forall n m, N_of_nat n <= N_of_nat m -> (n <= m)%nat.
-intros n m; case n; case m; unfold Nle; simpl; auto with arith.
+intros n m; case n; case m; unfold N.le; simpl; auto with arith.
 intros n1 H1; case H1; auto.
 intros m1 n1 H1; case (le_or_lt n1 m1); auto with arith.
 intros H2; case H1.
@@ -83,18 +39,15 @@ Theorem Nle_le_rev: forall n  m, n <= m -> (nat_of_N n <= nat_of_N m)%nat.
 intros; apply le_Nle; repeat rewrite nat_N_correct; auto.
 Qed.
 
-Definition Nlt (x y:N) := x?=y = Lt.
-Notation "x < y" := (Nlt x y) : N_scope.
-
 Theorem Nlt_lt: forall n  m, (nat_of_N n < nat_of_N m)%nat -> n < m.
-intros n m; case n; case m; unfold Nlt; simpl; try (intros; discriminate); auto.
+intros n m; case n; case m; unfold N.lt; simpl; try (intros; discriminate); auto.
 intros H1; inversion H1.
 intros p H1; inversion H1.
 intros; apply nat_of_P_lt_Lt_compare_complement_morphism; auto.
 Qed.
 
 Theorem lt_Nlt: forall n m, N_of_nat n < N_of_nat m -> (n < m)%nat.
-intros n m; case n; case m; unfold Nlt; simpl; try (intros; discriminate); auto with arith.
+intros n m; case n; case m; unfold N.lt; simpl; try (intros; discriminate); auto with arith.
 intros m1 n1 H1.
 rewrite <- (N_nat_correct (S n1)); rewrite <- (N_nat_correct (S m1)).
 simpl; apply nat_of_P_lt_Lt_compare_morphism; auto.
@@ -104,11 +57,9 @@ Theorem Nlt_lt_rev: forall n  m, n < m -> (nat_of_N n < nat_of_N m)%nat.
 intros; apply lt_Nlt; repeat rewrite nat_N_correct; auto.
 Qed.
 
-Definition Nge (x y:N) := ~(x?=y = Lt).
-Notation "x >= y" := (Nge x y) : N_scope.
 
 Theorem Nge_ge: forall n  m, (nat_of_N n >= nat_of_N m)%nat -> n >= m.
-intros n m; case n; case m; unfold Nge; simpl; try (intros; discriminate); auto.
+intros n m; case n; case m; unfold N.ge; simpl; try (intros; discriminate); auto.
 intros p; elim p using Pind; simpl.
 intros H1; inversion H1. 
 intros n1 _; rewrite nat_of_P_succ_morphism.
@@ -118,7 +69,7 @@ apply nat_of_P_lt_Lt_compare_morphism; auto.
 Qed.
 
 Theorem ge_Nge: forall n m, N_of_nat n >= N_of_nat m -> (n >= m)%nat.
-intros n m; case n; case m; unfold Nge; simpl; try (intros; discriminate); auto with arith.
+intros n m; case n; case m; unfold N.ge; simpl; try (intros; discriminate); auto with arith.
 intros n1 H1; case H1; auto.
 intros m1 n1 H1.
 case (le_or_lt m1 n1); auto with arith.
@@ -131,19 +82,16 @@ Theorem Nge_ge_rev: forall n  m, n >= m -> (nat_of_N n >= nat_of_N m)%nat.
 intros; apply ge_Nge; repeat rewrite nat_N_correct; auto.
 Qed.
 
-Definition Ngt (x y:N) := x?=y = Gt.
-Notation "x > y" := (Ngt x y) : N_scope.
-
 
 Theorem Ngt_gt: forall n  m, (nat_of_N n > nat_of_N m)%nat -> n > m.
-intros n m; case n; case m; unfold Ngt; simpl; try (intros; discriminate); auto.
+intros n m; case n; case m; unfold N.gt; simpl; try (intros; discriminate); auto.
 intros H1; inversion H1.
 intros p H1; inversion H1.
 intros; apply nat_of_P_gt_Gt_compare_complement_morphism; auto.
 Qed.
 
 Theorem gt_Ngt: forall n m, N_of_nat n > N_of_nat m -> (n > m)%nat.
-intros n m; case n; case m; unfold Ngt; simpl; try (intros; discriminate); auto with arith.
+intros n m; case n; case m; unfold N.gt; simpl; try (intros; discriminate); auto with arith.
 intros m1 n1 H1.
 rewrite <- (N_nat_correct (S n1)); rewrite <- (N_nat_correct (S m1)).
 simpl; apply nat_of_P_gt_Gt_compare_morphism; auto.
@@ -191,15 +139,15 @@ Qed.
 
 Ltac to_nat_op  :=
   match goal with
-      H: (Nlt _ _) |- _ => generalize (Nlt_lt_rev _ _ H); clear H; intros H
-|     H: (Ngt _ _) |- _ => generalize (Ngt_gt_rev _ _ H); clear H; intros H
-|     H: (Nle _ _) |- _ => generalize (Nle_le_rev _ _ H); clear H; intros H
-|     H: (Nge _ _) |- _ => generalize (Nge_ge_rev _ _ H); clear H; intros H
+      H: (N.lt _ _) |- _ => generalize (Nlt_lt_rev _ _ H); clear H; intros H
+|     H: (N.gt _ _) |- _ => generalize (Ngt_gt_rev _ _ H); clear H; intros H
+|     H: (N.le _ _) |- _ => generalize (Nle_le_rev _ _ H); clear H; intros H
+|     H: (N.ge _ _) |- _ => generalize (Nge_ge_rev _ _ H); clear H; intros H
 |     H: (@eq N _ _) |- _ => generalize (Neq_eq_rev _ _ H); clear H; intros H
-|      |- (Nlt _ _)  => apply Nlt_lt
-|      |- (Nle _ _)  => apply Nle_le
-|      |- (Ngt _ _)  => apply Ngt_gt
-|      |- (Nge _ _)  => apply Nge_ge
+|      |- (N.lt _ _)  => apply Nlt_lt
+|      |- (N.le _ _)  => apply Nle_le
+|      |- (N.gt _ _)  => apply Ngt_gt
+|      |- (N.ge _ _)  => apply Nge_ge
 |      |- (@eq N _ _)  => apply Neq_eq
 end.
 

@@ -10,11 +10,11 @@ Definition Rconvert_back (e : PExpr Z) (l : list R) : R :=
 
 Definition Rsimpl_minus (e : PExpr Z) := 
     (simpl_minus
-      Z Zplus Zmult Zopp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv e).
+      Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e).
 
 Definition Rsimpl (e : PExpr Z) := 
     (simpl
-      Z Zplus Zmult Zopp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv e).
+      Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e).
  
 Ltac
 rs term1 term2 :=

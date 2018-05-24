@@ -8,7 +8,7 @@ Require Import NPolF.
 Require Import PolRBase.
  
 Definition Nreplace_term_aux :=
-  replace Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv.
+  replace Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div.
 
 Ltac
 Nreplace_term term from to occ id :=

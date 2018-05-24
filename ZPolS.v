@@ -5,23 +5,23 @@ Require Import PolAux.
 
 
 Definition Zconvert_back (e : PExpr Z) (l : list Z) : Z :=
-   convert_back Z Z Z0 Zplus Zminus Zmult Zopp (fun (x : Z) => x) l e.
+   convert_back Z Z Z0 Zplus Zminus Zmult Z.opp (fun (x : Z) => x) l e.
 
 Definition Zsimpl (e : PExpr Z)  :=
    simpl
-      Z Zplus Zmult Zopp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv e. 
+      Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e. 
 
 Definition Zsimpl_minus (e : PExpr Z) :=
    simpl_minus
-    Z Zplus Zmult Zopp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv e. 
+    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e. 
 
 Ltac
 zs term1 term2 :=
 let term := constr:(Zminus term1 term2) in
-let rfv := FV ZCst Zplus Zmult Zminus Zopp term (@nil Z) in
+let rfv := FV ZCst Zplus Zmult Zminus Z.opp term (@nil Z) in
 let fv := Trev rfv in
-let expr1 := mkPolexpr Z ZCst Zplus Zmult Zminus Zopp term1 fv in
-let expr2 := mkPolexpr Z ZCst Zplus Zmult Zminus Zopp term2 fv in
+let expr1 := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp term1 fv in
+let expr2 := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp term2 fv in
 let re := eval compute in (Zsimpl_minus (PEsub expr1 expr2)) in
 let expr3 := match re with (PEsub ?X1 _) => X1 end in
 let expr4 := match re with (PEsub _ ?X1 ) => X1 end in
@@ -51,13 +51,13 @@ match goal with
 zs X1 X2; apply Zplus_eq_compat_l
 | |- (?X1 <> ?X2)%Z =>
 zs X1 X2; apply Zplus_neg_compat_l
-| |- Zlt ?X1 ?X2 =>
+| |- Z.lt ?X1 ?X2 =>
 zs X1 X2; apply Zplus_lt_compat_l
-| |- Zgt ?X1 ?X2 =>
+| |- Z.gt ?X1 ?X2 =>
 zs X1 X2; apply Zplus_gt_compat_l
-| |- Zle ?X1 ?X2 =>
+| |- Z.le ?X1 ?X2 =>
 zs X1 X2; apply Zplus_le_compat_l
-| |- Zge ?X1 ?X2 =>
+| |- Z.ge ?X1 ?X2 =>
 zs X1 X2; apply Zplus_ge_compat_l
 | _ => fail end.
 
@@ -71,12 +71,12 @@ match (type of H) with
 zs X1 X2; intros tmp; generalize (Zplus_reg_l _ _ _ tmp); clear H tmp; intro H
 |  (?X1 <> ?X2)%nat =>
 zs X1 X2; intros tmp; generalize (Zplus_neg_reg_l _ _ _ tmp); clear H tmp; intro H
-|  Zlt ?X1 ?X2 =>
+|  Z.lt ?X1 ?X2 =>
 zs X1 X2; intros tmp; generalize (Zplus_lt_reg_l _ _ _ tmp); clear H tmp; intro H
-|  Zgt ?X1 ?X2 =>
+|  Z.gt ?X1 ?X2 =>
 zs X1 X2; intros tmp; generalize (Zplus_gt_reg_l _ _ _ tmp); clear H tmp; intro H
-|  Zle ?X1 ?X2 =>
+|  Z.le ?X1 ?X2 =>
 zs X1 X2; intros tmp; generalize (Zplus_le_reg_l _ _ _ tmp); clear H tmp; intro H
-|  Zge ?X1 ?X2 =>
+|  Z.ge ?X1 ?X2 =>
 zs X1 X2; intros tmp; generalize (Zplus_ge_reg_l _ _ _ tmp); clear H tmp; intro H
 | _ => fail end.

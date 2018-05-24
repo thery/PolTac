@@ -8,17 +8,17 @@ Require Import PolRBase.
 
  
 Definition Zreplace_term_aux :=
-  replace Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv.
+  replace Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div.
 
 Ltac
 Zreplace_term term from to occ id :=
-let rfv := FV ZCst Zplus Zmult Zminus Zopp term (@nil Z) in
-let rfv1 := FV ZCst Zplus Zmult Zminus Zopp from rfv in
-let rfv2 := FV ZCst Zplus Zmult Zminus Zopp to rfv1 in
+let rfv := FV ZCst Zplus Zmult Zminus Z.opp term (@nil Z) in
+let rfv1 := FV ZCst Zplus Zmult Zminus Z.opp from rfv in
+let rfv2 := FV ZCst Zplus Zmult Zminus Z.opp to rfv1 in
 let fv := Trev rfv2 in
-let expr := mkPolexpr Z ZCst Zplus Zmult Zminus Zopp term fv in
-let expr_from := mkPolexpr Z ZCst Zplus Zmult Zminus Zopp from fv in
-let expr_to := mkPolexpr Z ZCst Zplus Zmult Zminus Zopp to fv in
+let expr := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp term fv in
+let expr_from := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp from fv in
+let expr_to := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp to fv in
 let re := eval compute in (Zreplace_term_aux expr expr_from expr_to occ) in
 let term1 := eval
      unfold Zconvert_back, convert_back,  pos_nth,  jump,
@@ -103,7 +103,7 @@ match term with
    match goal with
      |- (?X <= ?Y)%Z  =>
             let  t := zpol_replace_term (X <= Y)%Z term dir1 dir2 occ false in
-               apply Zle_trans with t
+               apply Z.le_trans with t
      |  |- (?X >= ?Y)%Z =>
             let  t := zpol_replace_term (X >= Y)%Z term dir1 dir2 occ false in
                apply Zge_trans with t
@@ -111,9 +111,9 @@ match term with
             let  t := zpol_replace_term G term dir1 dir2 occ false in
            match zpol_aux_dir term dir1 with
                 P.L =>
-                                    (apply Zlt_le_trans with t || apply Zgt_le_trans with t)
+                                    (apply Z.lt_le_trans with t || apply Zgt_le_trans with t)
                |P.R =>
-                                    (apply Zle_lt_trans with t || apply Zle_gt_trans with t)
+                                    (apply Z.le_lt_trans with t || apply Zle_gt_trans with t)
             end
    end
 end.

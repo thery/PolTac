@@ -6,15 +6,15 @@ Require Export ArithRing.
 Open Scope nat_scope.
 
 Definition Natconvert_back (e : PExpr Z) (l : list nat) : nat :=
-   convert_back Z nat 0 plus minus mult Natopp Zabs_nat l e.
+   convert_back Z nat 0 plus minus mult Natopp Z.abs_nat l e.
  
 Definition Natsimpl_minus (e : PExpr Z) :=
    simpl_minus
-    Z Zplus Zmult Zopp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv e.
+    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e.
  
 Definition Natsimpl (e : PExpr Z) :=
    simpl
-    Z Zplus Zmult Zopp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv e.
+    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e.
 
 
 Ltac

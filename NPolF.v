@@ -9,14 +9,14 @@ Require Import NSignTac.
 
 
 Definition Zfactor := 
-  factor Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv Zgcd.
+  factor Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div Zgcd.
 
 Definition Zfactor_minus := 
-  factor_sub Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv Zgcd.
+  factor_sub Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div Zgcd.
 
 
 Definition Zget_delta := 
- get_delta Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv Zgcd.
+ get_delta Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div Zgcd.
 
 
 Ltac
@@ -55,10 +55,10 @@ progress (
 match goal with
 | |- (?X1 = ?X2)%N =>  Nfactor_term X1 X2 
 | |- (?X1 <> ?X2)%N =>  Nfactor_term X1 X2 
-| |- Nlt ?X1 ?X2 => Nfactor_term X1 X2
-| |- Ngt ?X1 ?X2 =>Nfactor_term X1 X2
-| |- Nle ?X1 ?X2 => Nfactor_term X1 X2
-| |- Nge ?X1 ?X2 =>Nfactor_term X1 X2
+| |- N.lt ?X1 ?X2 => Nfactor_term X1 X2
+| |- N.gt ?X1 ?X2 =>Nfactor_term X1 X2
+| |- N.le ?X1 ?X2 => Nfactor_term X1 X2
+| |- N.ge ?X1 ?X2 =>Nfactor_term X1 X2
 | _ => fail end)); try (Nsign_tac); try repeat (rewrite Nmult_1_l || rewrite Nmult_1_r).
 
 
@@ -69,8 +69,8 @@ generalize H;
 match type of H with
   (?X1 = ?X2)%N =>  Nfactor_term X1 X2 
 | (?X1 <> ?X2)%N =>  Nfactor_term X1 X2 
-| Nlt ?X1 ?X2 => Nfactor_term X1 X2
-| Ngt ?X1 ?X2 =>Nfactor_term X1 X2
-| Nle ?X1 ?X2 => Nfactor_term X1 X2 
-| Nge ?X1 ?X2 =>Nfactor_term X1 X2
+| N.lt ?X1 ?X2 => Nfactor_term X1 X2
+| N.gt ?X1 ?X2 =>Nfactor_term X1 X2
+| N.le ?X1 ?X2 => Nfactor_term X1 X2 
+| N.ge ?X1 ?X2 =>Nfactor_term X1 X2
 | _ => fail end)); clear H; intros H; try hyp_Nsign_tac H; try repeat rewrite Nmult_1_l in H.

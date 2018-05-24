@@ -899,7 +899,7 @@ Ltac Find_at a l :=
      let t := term_eq a b in
      match t with
      | true =>  constr:(xH)
-     | false => let p := Find_at a l in eval compute in (Psucc p)
+     | false => let p := Find_at a l in eval compute in (Pos.succ p)
      end
  end.
 		      

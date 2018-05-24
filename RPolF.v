@@ -9,10 +9,10 @@ Require Import RSignTac.
 
 
 Definition Rfactor := 
-  factor Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv Zgcd.
+  factor Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div Zgcd.
 
 Definition Rfactor_minus := 
-  factor_sub Z Zplus Zmult Zopp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Zdiv Zgcd.
+  factor_sub Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div Zgcd.
 
 
 Ltac Rfactor_term term1 term2 :=

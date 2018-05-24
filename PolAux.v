@@ -135,7 +135,7 @@ Ltac RCst t :=
    | Ropp ?e1 => 
        match (RCst e1) with
         false => constr:(false)
-      | ?e3 => eval compute in (Zopp e3)
+      | ?e3 => eval compute in (Z.opp e3)
       end
    | IZR ?e1 => 
        match (ZCst e1) with
@@ -147,15 +147,15 @@ Ltac RCst t :=
  end.
 
 
-(* Remove the Zabs_nat of a number, unfortunately stops at
-   the first Zabs_nat x where x is not a number *)
+(* Remove the Z.abs_nat of a number, unfortunately stops at
+   the first Z.abs_nat x where x is not a number *)
 
 Ltac clean_zabs term :=
   match term with
-   context id [(Zabs_nat ?X)] => 
+   context id [(Z.abs_nat ?X)] => 
      match is_ZCst X with
        true => 
-         let x := eval compute in (Zabs_nat X) in
+         let x := eval compute in (Z.abs_nat X) in
          let y := context id [x] in
            clean_zabs y
      | false => term
@@ -163,15 +163,15 @@ Ltac clean_zabs term :=
     | _ => term
   end.
 
-(* Remove the Zabs_N of a number, unfortunately stops at
-   the first Zabs_nat x where x is not a number *)
+(* Remove the Z.abs_N of a number, unfortunately stops at
+   the first Z.abs_nat x where x is not a number *)
 
 Ltac clean_zabs_N term :=
   match term with
-   context id [(Zabs_N ?X)] => 
+   context id [(Z.abs_N ?X)] => 
      match is_ZCst X with
        true => 
-         let x := eval compute in (Zabs_N X) in
+         let x := eval compute in (Z.abs_N X) in
          let y := context id [x] in
            clean_zabs_N y
      | false => term
@@ -344,7 +344,7 @@ apply Zplus_reg_l with a; auto.
 Qed.
 
 Theorem Zplus_ge_compat_l: forall n m p : Z, (n >= m -> p + n >= p + m)%Z.
-intros n m p H; apply Zle_ge; apply Zplus_le_compat_l; auto; apply Zge_le; auto.
+intros n m p H; apply Z.le_ge; apply Zplus_le_compat_l; auto; apply Z.ge_le; auto.
 Qed.
 
 Theorem Zplus_neg_reg_l: forall a b c: Z,  (a + b <> a + c -> b <> c)%Z.
@@ -352,7 +352,7 @@ intros a b c H H1; case H; subst; auto.
 Qed.
 
 Theorem Zplus_ge_reg_l: forall n m p : Z, (p + n >= p + m -> n >= m)%Z.
-intros n m p H; apply Zle_ge; apply Zplus_le_reg_l with p; auto; apply Zge_le; auto.
+intros n m p H; apply Z.le_ge; apply Zplus_le_reg_l with p; auto; apply Z.ge_le; auto.
 Qed.
 
 (* Theorems to simplify the goal 0 ? x * y and x * y ? 0 where ? is < > <= >= *)
@@ -406,11 +406,11 @@ apply Zmult_lt_O_compat; auto with zarith.
 Qed.
 
 Theorem Zge_sign_neg_neg: forall x y: Z, (0 >= x -> 0 >= y  -> x * y >= 0)%Z.
-intros; apply Zle_ge; apply Zle_sign_neg_neg; auto with zarith.
+intros; apply Z.le_ge; apply Zle_sign_neg_neg; auto with zarith.
 Qed.
 
 Theorem Zge_sign_pos_pos: forall x y: Z, (x >= 0 -> y >= 0  -> x * y >= 0)%Z.
-intros; apply Zle_ge; apply Zle_sign_pos_pos; auto with zarith.
+intros; apply Z.le_ge; apply Zle_sign_pos_pos; auto with zarith.
 Qed.
 
 Theorem Zge_neg_pos: forall x, (0 >= -x -> x >= 0)%Z.
@@ -418,20 +418,20 @@ auto with zarith.
 Qed.
 
 Theorem Zge_sign_neg_pos: forall x y: Z, (0 >= x -> y >= 0  -> 0>= x * y)%Z.
-intros; apply Zle_ge; apply Zle_sign_neg_pos; auto with zarith.
+intros; apply Z.le_ge; apply Zle_sign_neg_pos; auto with zarith.
 Qed.
 
 Theorem Zge_sign_pos_neg: forall x y: Z, (x >= 0 -> 0 >= y  -> 0 >= x * y)%Z.
-intros; apply Zle_ge; apply Zle_sign_pos_neg; auto with zarith.
+intros; apply Z.le_ge; apply Zle_sign_pos_neg; auto with zarith.
 Qed.
 
 
 Theorem Zgt_sign_neg_neg: forall x y: Z, (0 > x -> 0 > y  -> x * y > 0)%Z.
-intros; apply Zlt_gt; apply Zlt_sign_neg_neg; auto with zarith.
+intros; apply Z.lt_gt; apply Zlt_sign_neg_neg; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_pos_pos: forall x y: Z, (x > 0 -> y > 0  -> x * y > 0)%Z.
-intros; apply Zlt_gt; apply Zlt_sign_pos_pos; auto with zarith.
+intros; apply Z.lt_gt; apply Zlt_sign_pos_pos; auto with zarith.
 Qed.
 
 Theorem Zgt_neg_pos: forall x, (0 > -x -> x > 0)%Z.
@@ -439,11 +439,11 @@ auto with zarith.
 Qed.
 
 Theorem Zgt_sign_neg_pos: forall x y: Z, (0 > x -> y > 0  -> 0> x * y)%Z.
-intros; apply Zlt_gt; apply Zlt_sign_neg_pos; auto with zarith.
+intros; apply Z.lt_gt; apply Zlt_sign_neg_pos; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_pos_neg: forall x y: Z, (x > 0 -> 0 > y  -> 0 > x * y)%Z.
-intros; apply Zlt_gt; apply Zlt_sign_pos_neg; auto with zarith.
+intros; apply Z.lt_gt; apply Zlt_sign_pos_neg; auto with zarith.
 Qed.
 
 (* Theorems to simplify the hyp 0 ? x * y and x * y ? 0 where ? is < > <= >= *)
@@ -473,19 +473,19 @@ apply Zlt_not_le;apply Zlt_sign_neg_neg; auto.
 Qed.
 
 Theorem Zge_sign_pos_pos_rev: forall x y: Z, (x > 0 -> x * y >= 0 -> y >= 0)%Z.
-intros x y H1 H2; apply Zle_ge; apply Zle_sign_pos_pos_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.le_ge; apply Zle_sign_pos_pos_rev with x; auto with zarith.
 Qed.
 
 Theorem Zge_sign_neg_neg_rev: forall x y: Z, (0 > x -> x * y  >= 0->  0 >= y)%Z.
-intros x y H1 H2; apply Zle_ge; apply Zle_sign_neg_neg_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.le_ge; apply Zle_sign_neg_neg_rev with x; auto with zarith.
 Qed.
 
 Theorem Zge_sign_pos_neg_rev: forall x y: Z, (x > 0 -> 0 >= x * y -> 0 >= y)%Z.
-intros x y H1 H2; apply Zle_ge; apply Zle_sign_pos_neg_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.le_ge; apply Zle_sign_pos_neg_rev with x; auto with zarith.
 Qed.
 
 Theorem Zge_sign_neg_pos_rev: forall x y: Z, (0 > x -> 0 >= x * y ->  y >= 0)%Z.
-intros x y H1 H2; apply Zle_ge; apply Zle_sign_neg_pos_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.le_ge; apply Zle_sign_neg_pos_rev with x; auto with zarith.
 Qed.
 
 Theorem Zlt_sign_pos_pos_rev: forall x y: Z, (0 < x -> 0 < x * y -> 0 < y)%Z.
@@ -513,19 +513,19 @@ apply Zle_not_lt;apply Zle_sign_neg_neg; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_pos_pos_rev: forall x y: Z, (x > 0 -> x * y > 0 -> y > 0)%Z.
-intros x y H1 H2; apply Zlt_gt; apply Zlt_sign_pos_pos_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.lt_gt; apply Zlt_sign_pos_pos_rev with x; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_neg_neg_rev: forall x y: Z, (0 > x -> x * y  > 0->  0 > y)%Z.
-intros x y H1 H2; apply Zlt_gt; apply Zlt_sign_neg_neg_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.lt_gt; apply Zlt_sign_neg_neg_rev with x; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_pos_neg_rev: forall x y: Z, (x > 0 -> 0 > x * y -> 0 > y)%Z.
-intros x y H1 H2; apply Zlt_gt; apply Zlt_sign_pos_neg_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.lt_gt; apply Zlt_sign_pos_neg_rev with x; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_neg_pos_rev: forall x y: Z, (0 > x -> 0 > x * y ->  y > 0)%Z.
-intros x y H1 H2; apply Zlt_gt; apply Zlt_sign_neg_pos_rev with x; auto with zarith.
+intros x y H1 H2; apply Z.lt_gt; apply Zlt_sign_neg_pos_rev with x; auto with zarith.
 Qed.
 
 (* Theorem to simplify x * y ? x * z where ? is < > <= >= *)
@@ -605,25 +605,25 @@ Qed.
 Theorem Zmult_ge_compat_l_rev:
   forall n m p : Z, (p > 0)%Z -> (p * n >= p * m)%Z -> (n >= m)%Z.
 intros n m p H H1; 
- apply Zle_ge; apply Zmult_le_compat_l_rev with p; auto with zarith.
+ apply Z.le_ge; apply Zmult_le_compat_l_rev with p; auto with zarith.
 Qed.
 
 Theorem Zmult_ge_neg_compat_l_rev:
   forall n m p : Z, (0 > p)%Z -> (p * n >= p * m)%Z -> (m >= n)%Z.
 intros n m p H H1; 
- apply Zle_ge; apply Zmult_le_neg_compat_l_rev with p; auto with zarith.
+ apply Z.le_ge; apply Zmult_le_neg_compat_l_rev with p; auto with zarith.
 Qed.
 
 Theorem Zmult_gt_compat_l_rev:
   forall n m p : Z, (p > 0)%Z -> (p * n > p * m)%Z -> (n > m)%Z.
 intros n m p H H1; 
- apply Zlt_gt; apply Zmult_lt_compat_l_rev with p; auto with zarith.
+ apply Z.lt_gt; apply Zmult_lt_compat_l_rev with p; auto with zarith.
 Qed.
 
 Theorem Zmult_gt_neg_compat_l_rev:
   forall n m p : Z, (0 > p)%Z -> (p * n > p * m)%Z -> (m > n)%Z.
 intros n m p H H1; 
- apply Zlt_gt; apply Zmult_lt_neg_compat_l_rev with p; auto with zarith.
+ apply Z.lt_gt; apply Zmult_lt_neg_compat_l_rev with p; auto with zarith.
 Qed.
 
 (* For replace *)
@@ -1041,7 +1041,7 @@ Qed.
 
 Theorem Z2R_gt: forall p q, (p > q)%Z -> (Z2R p > Z2R q)%R.
 intros p q; repeat rewrite Z2R_correct; intros; red; apply IZR_lt;
-apply Zgt_lt; auto.
+apply Z.gt_lt; auto.
 Qed.
 
 Close Scope R_scope.
