@@ -19,7 +19,7 @@ let fv := Trev rfv2 in
 let expr := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp term fv in
 let expr_from := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp from fv in
 let expr_to := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp to fv in
-let re := eval compute in (Zreplace_term_aux expr expr_from expr_to occ) in
+let re := eval vm_compute in (Zreplace_term_aux expr expr_from expr_to occ) in
 let term1 := eval
      unfold Zconvert_back, convert_back,  pos_nth,  jump,
          hd,  tl in (Zconvert_back re fv) in
@@ -52,7 +52,7 @@ match term with
 end.
 
 Ltac zpol_replace_term term1 term2 dir1 dir2 occ id := 
-  let dir2opp := eval compute in (P.pol_dir_opp dir2) in
+  let dir2opp := eval vm_compute in (P.pol_dir_opp dir2) in
   let t1 := zpol_get_term dir2 term2 in
   let t2 := match id with true => t1 | false => zpol_get_term dir2opp term2 end in
   match term1 with

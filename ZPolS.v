@@ -22,10 +22,10 @@ let rfv := FV ZCst Zplus Zmult Zminus Z.opp term (@nil Z) in
 let fv := Trev rfv in
 let expr1 := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp term1 fv in
 let expr2 := mkPolexpr Z ZCst Zplus Zmult Zminus Z.opp term2 fv in
-let re := eval compute in (Zsimpl_minus (PEsub expr1 expr2)) in
+let re := eval vm_compute in (Zsimpl_minus (PEsub expr1 expr2)) in
 let expr3 := match re with (PEsub ?X1 _) => X1 end in
 let expr4 := match re with (PEsub _ ?X1 ) => X1 end in
-let re1 := eval compute in (Zsimpl (PEsub expr1 expr3)) in
+let re1 := eval vm_compute in (Zsimpl (PEsub expr1 expr3)) in
 let
  re1' :=
   eval
