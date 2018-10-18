@@ -25,7 +25,7 @@ let rfv := FV NatCst plus mult minus Natopp term (@nil nat) in
 let fv := Trev rfv in
 let expr1 := mkPolexpr Z NatCst plus mult minus Natopp term1 fv in
 let expr2 := mkPolexpr Z NatCst plus mult minus Natopp term2 fv in
-let re := eval compute in (Zfactor_minus (PEsub expr1 expr2)) in
+let re := eval vm_compute in (Zfactor_minus (PEsub expr1 expr2)) in
 let factor := match re with (PEmul ?X1 _) => X1 end in
 let expr3 := match re with (PEmul _ (PEsub ?X1 _)) => X1 end in
 let expr4 := match re with (PEmul _ (PEsub _ ?X1 )) => X1 end in

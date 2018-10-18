@@ -19,7 +19,7 @@ let fv := Trev rfv2 in
 let expr := mkPolexpr Z NCst Nplus Nmult Nminus Nopp term fv in
 let expr_from := mkPolexpr Z NCst Nplus Nmult Nminus Nopp from fv in
 let expr_to := mkPolexpr Z NCst Nplus Nmult Nminus Nopp to fv in
-let re := eval compute in (Nreplace_term_aux expr expr_from expr_to occ) in
+let re := eval vm_compute in (Nreplace_term_aux expr expr_from expr_to occ) in
 let term1 := eval
      unfold Nconvert_back, convert_back,  pos_nth,  jump,
          hd,  tl in (Nconvert_back re fv) in

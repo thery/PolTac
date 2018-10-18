@@ -18,7 +18,7 @@ let fv := Trev rfv2 in
 let expr := mkPolexpr Z NatCst plus mult minus Natopp term fv in
 let expr_from := mkPolexpr Z NatCst plus mult minus Natopp from fv in
 let expr_to := mkPolexpr Z NatCst plus mult minus Natopp to fv in
-let re := eval compute in (Natreplace_term_aux expr expr_from expr_to occ) in
+let re := eval vm_compute in (Natreplace_term_aux expr expr_from expr_to occ) in
 let term1 := eval
      unfold Natconvert_back, convert_back,  pos_nth,  jump,
          hd,  tl in (Natconvert_back re fv) in

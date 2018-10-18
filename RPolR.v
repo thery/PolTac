@@ -20,17 +20,17 @@ let fv := Trev rfv2 in
 let expr := mkPolexpr Z RCst Rplus Rmult Rminus Ropp term fv in
 let expr_from := mkPolexpr Z RCst Rplus Rmult Rminus Ropp from fv in
 let expr_to := mkPolexpr Z RCst Rplus Rmult Rminus Ropp to fv in
-let re := eval compute in (Rreplace_term_aux expr expr_from expr_to occ) in
+let re := eval vm_compute in (Rreplace_term_aux expr expr_from expr_to occ) in
 let term1 := eval
      unfold Rconvert_back, convert_back,  pos_nth,  jump,
          hd,  tl, Z2R, P2R in (Rconvert_back re fv) in
-match id with 
+match id with
      true => term1
   | false =>
      match eqterm term term1 with
        |false => term1
     end
-end 
+end
 .
 
 Ltac rpol_is_compare term :=
@@ -52,7 +52,7 @@ match term with
 | _ => fail 1 "Unknown term in pol_get_term"
 end.
 
-Ltac rpol_replace_term term1 term2 dir1 dir2 occ id := 
+Ltac rpol_replace_term term1 term2 dir1 dir2 occ id :=
   let dir2opp := eval compute in (P.pol_dir_opp dir2) in
   let t1 := rpol_get_term dir2 term2 in
   let t2 := match id with true => t1 | false => rpol_get_term dir2opp term2 end in
@@ -61,14 +61,14 @@ Ltac rpol_replace_term term1 term2 dir1 dir2 occ id :=
      match dir1 with
        P.L  =>
              Rreplace_term X t1 t2 occ id
-       | P.R => 
+       | P.R =>
             Rreplace_term Y t1 t2 occ id
       end
   | (?X = ?Y)%R  =>
      match dir1 with
        P.L  =>
              Rreplace_term X t1 t2 occ id
-     | P.R => 
+     | P.R =>
              Rreplace_term Y  t1 t2 occ id
       end
   end.
@@ -78,26 +78,26 @@ Ltac rpol_aux_dir term dir :=
   match term with
    (_ < _)%R => dir
   | (_ > _)%R => dir
-  | (_ <= _)%R => eval compute in (P.pol_dir_opp dir) 
-  | (_ >= _)%R  => eval compute in (P.pol_dir_opp dir) 
+  | (_ <= _)%R => eval compute in (P.pol_dir_opp dir)
+  | (_ >= _)%R  => eval compute in (P.pol_dir_opp dir)
 end.
 
-Ltac R_eq_trans_l t:= 
+Ltac R_eq_trans_l t:=
    match goal with
-     |  |- (?X >= ?Y)%R => apply eq_Rge_trans_l with t 
-     |  |- (?X > ?Y)%R => apply eq_Rgt_trans_l with t 
-     |  |- (?X <= ?Y)%R => apply eq_Rle_trans_l with t 
-     |  |- (?X < ?Y)%R => apply eq_Rlt_trans_l with t 
-     |  |- ?G  => apply trans_equal with t 
+     |  |- (?X >= ?Y)%R => apply eq_Rge_trans_l with t
+     |  |- (?X > ?Y)%R => apply eq_Rgt_trans_l with t
+     |  |- (?X <= ?Y)%R => apply eq_Rle_trans_l with t
+     |  |- (?X < ?Y)%R => apply eq_Rlt_trans_l with t
+     |  |- ?G  => apply trans_equal with t
     end.
 
-Ltac R_eq_trans_r t:= 
+Ltac R_eq_trans_r t:=
    match goal with
-     |  |- (?X >= ?Y)%R => apply eq_Rge_trans_r with t 
-     |  |- (?X > ?Y)%R => apply eq_Rgt_trans_r with t 
-     |  |- (?X <= ?Y)%R => apply eq_Rle_trans_r with t 
-     |  |- (?X < ?Y)%R => apply eq_Rlt_trans_r with t 
-     |  |- ?G  => apply trans_equal_r with t 
+     |  |- (?X >= ?Y)%R => apply eq_Rge_trans_r with t
+     |  |- (?X > ?Y)%R => apply eq_Rgt_trans_r with t
+     |  |- (?X <= ?Y)%R => apply eq_Rle_trans_r with t
+     |  |- (?X < ?Y)%R => apply eq_Rlt_trans_r with t
+     |  |- ?G  => apply trans_equal_r with t
     end.
 
 
@@ -144,7 +144,7 @@ end.
 (* Make the term appears *)
 Ltac Rreplace_tac_full_id term dir1 dir2 occ :=
   match goal with
-     |-  ?G => let t1 := rpol_replace_term G term dir1 dir2 occ true in 
+     |-  ?G => let t1 := rpol_replace_term G term dir1 dir2 occ true in
                 match dir1 with
                   P.L => R_eq_trans_l t1
                | P.R => R_eq_trans_r t1
@@ -154,11 +154,11 @@ end.
 Ltac rpolrx term dir1 dir2 occ :=
 match rpol_is_compare term with
   true => Rreplace_tac_full_id term dir1 dir2 occ; [Rreplace_tac_full term dir1 dir2 occ]
-| false => 
+| false =>
      let t := type of term in
-     match rpol_is_compare t with  true => 
+     match rpol_is_compare t with  true =>
        Rreplace_tac_full_id t dir1 dir2 occ; [Rreplace_tac_full t dir1 dir2 occ]
-     end 
+     end
 end.
 
 Ltac rpolr term :=
@@ -166,4 +166,3 @@ Ltac rpolr term :=
   rpolrx term P.R P.L 1%Z ||
   rpolrx term P.L P.R 1%Z ||
   rpolrx term P.R P.R 1%Z.
-

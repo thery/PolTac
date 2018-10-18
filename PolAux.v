@@ -7,63 +7,63 @@ Require Import P.
 Require Import Reals.
 
 (* Definition of the opposite for nat *)
-Definition Natopp := (fun x:nat => 0%nat). 
+Definition Natopp := (fun x:nat => 0%nat).
 
 (* Definition of the opposite for N *)
-Definition Nopp := (fun x:N => 0%N). 
+Definition Nopp := (fun x:N => 0%N).
 
 (* Auxillary functions for Z *)
 
 Definition is_Z0 := (Zeq_bool 0).
 Definition is_Z1 := (Zeq_bool 1).
 Definition is_Zpos := (Zle_bool 0).
-Definition is_Zdiv := 
+Definition is_Zdiv :=
   fun x y => if Zeq_bool x Z0 then false else Zeq_bool Z0 (Zmod y x).
-Definition Zgcd := 
+Definition Zgcd :=
  fun x y => (if (is_Zdiv x y) then x else if (is_Zdiv y x) then y else 1%Z).
 
 (* Check if a nat is a number *)
-Ltac is_NatCst p := 
+Ltac is_NatCst p :=
   match p with
   | O => constr:(true)
   | S ?p' => is_NatCst p'
   | _ => constr:(false)
 end.
- 
+
 (* Convert a Z into a nat if it is a number *)
-Ltac NatCst t := 
+Ltac NatCst t :=
   match is_NatCst t with
   | false => constr:(false)
-  | _ => let res := eval compute in (Z_of_nat t) in constr:(res) 
+  | _ => let res := eval compute in (Z_of_nat t) in constr:(res)
 end.
 
 
 (* Check if a number is a positive *)
-Ltac is_PCst p := 
+Ltac is_PCst p :=
   match p with
   | xH => constr:(true)
   | xO ?p' => is_PCst p'
   | xI ?p' => is_PCst p'
-  | _ => constr:(false) 
+  | _ => constr:(false)
 end.
 
 (* Check if a N is a number *)
-Ltac is_NCst p := 
+Ltac is_NCst p :=
   match p with
   | N0 => constr:(true)
   | Npos ?p' => is_PCst p'
   | _ => constr:(false)
 end.
- 
+
 (* Convert a Z into a nat if it is a number *)
-Ltac NCst t := 
+Ltac NCst t :=
   match is_NCst t with
   | false => constr:(false)
-  | _ => let res := eval compute in (Z_of_N t) in constr:(res) 
+  | _ => let res := eval compute in (Z_of_N t) in constr:(res)
 end.
- 
+
 (* If a number is an integer return itself otherwise false *)
-Ltac ZCst t := 
+Ltac ZCst t :=
   match t with
   | Z0 => constr:(t)
   | Zpos ?p => match is_PCst p with
@@ -72,16 +72,16 @@ Ltac ZCst t :=
                end
   | Zneg ?p => match is_PCst p with
                | false => constr:(false)
-               | _ => constr:(t) 
+               | _ => constr:(t)
                end
-  | _ => constr:(false) 
+  | _ => constr:(false)
   end.
- 
+
 (* Check if a number is an integer *)
 Ltac is_ZCst t := match t with
                 | Z0 => constr:(true)
-                | Zpos ?p => is_PCst p 
-                | Zneg ?p => is_PCst p 
+                | Zpos ?p => is_PCst p
+                | Zneg ?p => is_PCst p
                 | _ => constr:(false) end.
 
 
@@ -104,40 +104,40 @@ Definition Z2R (z: Z): R :=
  end.
 
 (* Turn a R when possible into a Z *)
-Ltac RCst t := 
+Ltac RCst t :=
   match t with
    | R0 => constr:(Z0)
    | R1 => constr:(Zpos xH)
-   | Rplus ?e1 ?e2 => 
+   | Rplus ?e1 ?e2 =>
        match (RCst e1) with
         false => constr:(false)
       | ?e3 => match (RCst e2) with
                  false => constr:(false)
-              |  ?e4 =>  eval compute in (Zplus e3  e4) 
+              |  ?e4 =>  eval vm_compute in (Zplus e3  e4)
               end
       end
-   | Rminus ?e1 ?e2 => 
+   | Rminus ?e1 ?e2 =>
        match (RCst e1) with
         false => constr:(false)
       | ?e3 => match (RCst e2) with
                  false => constr:(false)
-              |  ?e4 => eval compute in (Zminus e3  e4)
+              |  ?e4 => eval vm_compute in (Zminus e3  e4)
               end
       end
-   | Rmult ?e1 ?e2 => 
+   | Rmult ?e1 ?e2 =>
        match (RCst e1) with
         false => constr:(false)
       | ?e3 => match (RCst e2) with
                  false => constr:(false)
-              |  ?e4 => eval compute in (Zmult e3  e4)
+              |  ?e4 => eval vm_compute in (Zmult e3  e4)
               end
       end
-   | Ropp ?e1 => 
+   | Ropp ?e1 =>
        match (RCst e1) with
         false => constr:(false)
-      | ?e3 => eval compute in (Z.opp e3)
+      | ?e3 => eval vm_compute in (Z.opp e3)
       end
-   | IZR ?e1 => 
+   | IZR ?e1 =>
        match (ZCst e1) with
         false => constr:(false)
       | ?e3 => e3
@@ -152,10 +152,10 @@ Ltac RCst t :=
 
 Ltac clean_zabs term :=
   match term with
-   context id [(Z.abs_nat ?X)] => 
+   context id [(Z.abs_nat ?X)] =>
      match is_ZCst X with
-       true => 
-         let x := eval compute in (Z.abs_nat X) in
+       true =>
+         let x := eval vm_compute in (Z.abs_nat X) in
          let y := context id [x] in
            clean_zabs y
      | false => term
@@ -168,10 +168,10 @@ Ltac clean_zabs term :=
 
 Ltac clean_zabs_N term :=
   match term with
-   context id [(Z.abs_N ?X)] => 
+   context id [(Z.abs_N ?X)] =>
      match is_ZCst X with
-       true => 
-         let x := eval compute in (Z.abs_N X) in
+       true =>
+         let x := eval vm_compute in (Z.abs_N X) in
          let y := context id [x] in
            clean_zabs_N y
      | false => term
@@ -604,25 +604,25 @@ Qed.
 
 Theorem Zmult_ge_compat_l_rev:
   forall n m p : Z, (p > 0)%Z -> (p * n >= p * m)%Z -> (n >= m)%Z.
-intros n m p H H1; 
+intros n m p H H1;
  apply Z.le_ge; apply Zmult_le_compat_l_rev with p; auto with zarith.
 Qed.
 
 Theorem Zmult_ge_neg_compat_l_rev:
   forall n m p : Z, (0 > p)%Z -> (p * n >= p * m)%Z -> (m >= n)%Z.
-intros n m p H H1; 
+intros n m p H H1;
  apply Z.le_ge; apply Zmult_le_neg_compat_l_rev with p; auto with zarith.
 Qed.
 
 Theorem Zmult_gt_compat_l_rev:
   forall n m p : Z, (p > 0)%Z -> (p * n > p * m)%Z -> (n > m)%Z.
-intros n m p H H1; 
+intros n m p H H1;
  apply Z.lt_gt; apply Zmult_lt_compat_l_rev with p; auto with zarith.
 Qed.
 
 Theorem Zmult_gt_neg_compat_l_rev:
   forall n m p : Z, (0 > p)%Z -> (p * n > p * m)%Z -> (m > n)%Z.
-intros n m p H H1; 
+intros n m p H H1;
  apply Z.lt_gt; apply Zmult_lt_neg_compat_l_rev with p; auto with zarith.
 Qed.
 
@@ -953,25 +953,25 @@ Qed.
 
 Theorem Rmult_ge_compat_l_rev:
   forall n m p : R, (p > 0)%R -> (p * n >= p * m)%R -> (n >= m)%R.
-intros n m p H H1; 
+intros n m p H H1;
  apply Rle_ge; apply Rmult_le_compat_l_rev with p; auto with real.
 Qed.
 
 Theorem Rmult_ge_neg_compat_l_rev:
   forall n m p : R, (0 > p)%R -> (p * n >= p * m)%R -> (m >= n)%R.
-intros n m p H H1; 
+intros n m p H H1;
  apply Rle_ge; apply Rmult_le_neg_compat_l_rev with p; auto with real.
 Qed.
 
 Theorem Rmult_gt_compat_l_rev:
   forall n m p : R, (p > 0)%R -> (p * n > p * m)%R -> (n > m)%R.
-intros n m p H H1; 
+intros n m p H H1;
  red; apply Rmult_lt_compat_l_rev with p; auto with real.
 Qed.
 
 Theorem Rmult_gt_neg_compat_l_rev:
   forall n m p : R, (0 > p)%R -> (p * n > p * m)%R -> (m > n)%R.
-intros n m p H H1; 
+intros n m p H H1;
  red; apply Rmult_lt_neg_compat_l_rev with p; auto with real.
 Qed.
 
@@ -1045,4 +1045,3 @@ apply Z.gt_lt; auto.
 Qed.
 
 Close Scope R_scope.
-

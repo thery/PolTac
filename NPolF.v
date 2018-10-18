@@ -26,7 +26,7 @@ let rfv := FV NCst Nplus Nmult Nminus Nopp term (@nil N) in
 let fv := Trev rfv in
 let expr1 := mkPolexpr Z NCst Nplus Nmult Nminus Nopp term1 fv in
 let expr2 := mkPolexpr Z NCst Nplus Nmult Nminus Nopp term2 fv in
-let re := eval compute in (Zfactor_minus (PEsub expr1 expr2)) in
+let re := eval vm_compute in (Zfactor_minus (PEsub expr1 expr2)) in
 let factor := match re with (PEmul ?X1 _) => X1 end in
 let expr3 := match re with (PEmul _ (PEsub ?X1 _)) => X1 end in
 let expr4 := match re with (PEmul _ (PEsub _ ?X1 )) => X1 end in
