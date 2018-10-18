@@ -1,6 +1,8 @@
 Require Import ZArith.
 Require Import PolTac.
 
+Open Scope Z.scope.
+
 Theorem pols_test1: forall (x y : Z), x < y ->  (x + x < y + x).
 intros.
 pols.
