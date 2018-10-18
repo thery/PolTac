@@ -6,6 +6,8 @@ A set of tactics to deal with inequalities in Coq over N, Z and R:
 - `polf`: factorization
 - `polr`: replacement
 
+inspired from [https://hal.inria.fr/inria-00070394]
+
 To build:
 
 ```
