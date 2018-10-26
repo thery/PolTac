@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/thery/coqprime.svg?branch=master)](https://travis-ci.org/thery/coqprime)
+
 ## PolTac
 
 A set of tactics to deal with inequalities in Coq over N, Z and R:
