@@ -1,4 +1,5 @@
 -R . PolTac
+NatAux.v
 Natex.v
 NatGroundTac.v
 NatPolF.v
@@ -21,6 +22,7 @@ PolRBase.v
 PolSBase.v
 PolTac.v
 P.v
+RAux.v
 Replace2.v
 ReplaceTest.v
 Rex.v
@@ -30,6 +32,7 @@ RPolR.v
 RPolS.v
 RPolTac.v
 RSignTac.v
+ZAux.v
 Zex.v
 ZPolF.v
 ZPolR.v
