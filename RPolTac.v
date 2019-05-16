@@ -1,4 +1,4 @@
+Require Export RAux.
 Require Export RPolS.
-Require Export Reals.
 Require Export RPolF.
 Require Export RPolR.

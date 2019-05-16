@@ -1,5 +1,5 @@
 ifeq "$(COQBIN)" ""
-  COQBIN=$(dir $(shell which coqtop))/
+	COQBIN=$(dir $(shell which coqtop))
 endif
 
 %: Makefile.coq

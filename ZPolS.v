@@ -1,7 +1,7 @@
+Require Import ZAux.
 Require Import PolSBase.
 Require Import PolAuxList.
 Require Import PolAux.
-
 
 
 Definition Zconvert_back (e : PExpr Z) (l : list Z) : Z :=
@@ -9,11 +9,11 @@ Definition Zconvert_back (e : PExpr Z) (l : list Z) : Z :=
 
 Definition Zsimpl (e : PExpr Z)  :=
    simpl
-      Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e. 
+      Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e.
 
 Definition Zsimpl_minus (e : PExpr Z) :=
    simpl_minus
-    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e. 
+    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e.
 
 Ltac
 zs term1 term2 :=
@@ -30,16 +30,16 @@ let
  re1' :=
   eval
      unfold
-      Zconvert_back, convert_back,  pos_nth,  jump, 
+      Zconvert_back, convert_back,  pos_nth,  jump,
          hd,  tl in (Zconvert_back (PEadd re1 expr3) fv) in
 let re1'' := eval lazy beta in re1' in
 let
  re2' :=
   eval
      unfold
-      Zconvert_back, convert_back,  pos_nth,  jump, 
+      Zconvert_back, convert_back,  pos_nth,  jump,
          hd,  tl in (Zconvert_back (PEadd re1 expr4) fv) in
-let re2'' := eval lazy beta in re2' in 
+let re2'' := eval lazy beta in re2' in
 replace2_tac term1 term2 re1'' re2''; [idtac | ring | ring].
 
 

@@ -1,8 +1,7 @@
 (* Ugly tacty to resolve sign condition for Z *)
 
-Require Import Reals.
-Require Import RPolS.
-Require Import PolAux.
+Require Import ZAux.
+Require Import Replace2.
 Require Import List.
 
 
