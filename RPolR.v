@@ -1,11 +1,10 @@
-Require Import ZArith.
-Require Import Reals.
+Require Import RAux.
 Require Import PolSBase.
 Require Import PolAux.
 Require Import PolAuxList.
+Require Import PolRBase.
 Require Import RPolS.
 Require Import RPolF.
-Require Import PolRBase.
 
 
 Definition Rreplace_term_aux :=

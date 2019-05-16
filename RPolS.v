@@ -1,4 +1,4 @@
-Require Import Reals.
+Require Import RAux.
 Require Import PolSBase.
 Require Import PolAuxList.
 Require Import PolAux.
