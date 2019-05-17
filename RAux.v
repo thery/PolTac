@@ -57,7 +57,7 @@ Qed.
 Theorem Rlt_sign_pos_pos x y : 0 < x -> 0 < y -> 0 < x * y.
 Proof. intros; apply Rmult_lt_0_compat; auto with real. Qed.
 
-Theorem Rlt_sign_neg_neg x y : x < 0 -> y < 0  -> 0 < x * y.
+Theorem Rlt_sign_neg_neg x y : x < 0 -> y < 0 -> 0 < x * y.
 Proof.
 intros; replace (x * y) with (-x * -y) by ring.
 now apply Rmult_lt_0_compat; auto with real.
@@ -131,7 +131,7 @@ Qed.
 
 Theorem Rle_sign_neg_neg_rev x y : x < 0 -> 0 <= x * y -> y <= 0.
 Proof.
-case (Rle_or_lt y  0); trivial.
+case (Rle_or_lt y 0); trivial.
 intros; absurd (0 <= x * y); trivial.
 now apply Rlt_not_le;apply Rlt_sign_neg_pos.
 Qed.
