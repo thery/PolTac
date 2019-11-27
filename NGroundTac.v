@@ -1,15 +1,12 @@
-Require Import NAux.
-
+Require Import NArith.
 
 Open Scope N_scope.
 
 Theorem Lt_diff_Gt: Lt <> Gt.
-intros; discriminate.
-Qed.
+Proof. discriminate. Qed.
 
 Theorem Eq_diff_Gt: Eq <> Gt.
-intros; discriminate.
-Qed.
+Proof. discriminate. Qed.
 
 Close Scope N_scope.
 
