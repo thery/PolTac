@@ -18,5 +18,5 @@ remove: [
   [make "uninstall"]
 ]
 depends: [
-  "coq" {>= "8.10"}
+  "coq" {>= "8.11"}
 ]
