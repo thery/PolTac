@@ -69,7 +69,6 @@ Qed.
 Theorem Zlt_sign_neg_neg: forall x y: Z, (x < 0 -> y < 0 -> 0 < x * y)%Z.
 Proof.
 intros x y H1 H2; replace (x * y)%Z with (-x * -y)%Z; auto with zarith; try ring.
-apply Zmult_lt_O_compat; auto with zarith.
 Qed.
 
 Theorem Zlt_pos_neg: forall x, (0 < -x -> x < 0)%Z.
@@ -80,13 +79,11 @@ Qed.
 Theorem Zlt_sign_pos_neg: forall x y: Z, (0 < x -> y < 0 -> x * y < 0)%Z.
 Proof.
 intros x y H1 H2; apply Zlt_pos_neg; replace (- (x * y))%Z with (x * (- y))%Z; auto with zarith; try ring.
-apply Zmult_lt_O_compat; auto with zarith.
 Qed.
 
 Theorem Zlt_sign_neg_pos: forall x y: Z, (x < 0 -> 0 < y -> x * y < 0)%Z.
 Proof.
 intros x y H1 H2; apply Zlt_pos_neg; replace (- (x * y))%Z with (-x * y)%Z; auto with zarith; try ring.
-apply Zmult_lt_O_compat; auto with zarith.
 Qed.
 
 Theorem Zge_sign_neg_neg: forall x y: Z, (0 >= x -> 0 >= y -> x * y >= 0)%Z.
@@ -145,29 +142,21 @@ Qed.
 Theorem Zle_sign_pos_pos_rev: forall x y: Z, (0 < x -> 0 <= x * y -> 0 <= y)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt 0 y); auto with zarith.
-intros H3; absurd (0 <= x * y)%Z; auto with zarith.
-apply Zlt_not_le;apply Zlt_sign_pos_neg; auto.
 Qed.
 
 Theorem Zle_sign_neg_neg_rev: forall x y: Z, (x < 0 -> 0 <= x * y -> y <= 0)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt y 0); auto with zarith.
-intros H3; absurd (0 <= x * y)%Z; auto with zarith.
-apply Zlt_not_le;apply Zlt_sign_neg_pos; auto.
 Qed.
 
 Theorem Zle_sign_pos_neg_rev: forall x y: Z, (0 < x -> x * y <= 0 -> y <= 0)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt y 0); auto with zarith.
-intros H3; absurd (x * y <= 0)%Z; auto with zarith.
-apply Zlt_not_le;apply Zlt_sign_pos_pos; auto.
 Qed.
 
 Theorem Zle_sign_neg_pos_rev: forall x y: Z, (x < 0 -> x * y <= 0 -> 0 <= y)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt 0 y); auto with zarith.
-intros H3; absurd (x * y <= 0)%Z; auto with zarith.
-apply Zlt_not_le;apply Zlt_sign_neg_neg; auto.
 Qed.
 
 Theorem Zge_sign_pos_pos_rev: forall x y: Z, (x > 0 -> x * y >= 0 -> y >= 0)%Z.
@@ -193,29 +182,21 @@ Qed.
 Theorem Zlt_sign_pos_pos_rev: forall x y: Z, (0 < x -> 0 < x * y -> 0 < y)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt y 0); auto with zarith.
-intros H3; absurd (0 < x * y)%Z; auto with zarith.
-apply Zle_not_lt;apply Zle_sign_pos_neg; auto with zarith.
 Qed.
 
 Theorem Zlt_sign_neg_neg_rev: forall x y: Z, (x < 0 -> 0 < x * y -> y < 0)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt 0 y); auto with zarith.
-intros H3; absurd (0 < x * y)%Z; auto with zarith.
-apply Zle_not_lt;apply Zle_sign_neg_pos; auto with zarith.
 Qed.
 
 Theorem Zlt_sign_pos_neg_rev: forall x y: Z, (0 < x -> x * y < 0 -> y < 0)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt 0 y); auto with zarith.
-intros H3; absurd (x * y < 0)%Z; auto with zarith.
-apply Zle_not_lt;apply Zle_sign_pos_pos; auto with zarith.
 Qed.
 
 Theorem Zlt_sign_neg_pos_rev: forall x y: Z, (x < 0 -> x * y < 0 -> 0 < y)%Z.
 Proof.
 intros x y H1 H2; case (Zle_or_lt y 0); auto with zarith.
-intros H3; absurd (x * y < 0)%Z; auto with zarith.
-apply Zle_not_lt;apply Zle_sign_neg_neg; auto with zarith.
 Qed.
 
 Theorem Zgt_sign_pos_pos_rev: forall x y: Z, (x > 0 -> x * y > 0 -> y > 0)%Z.
