@@ -20,7 +20,7 @@ Fixpoint lt_bool (n m: nat) {struct n}: bool :=
 Theorem lt_correct: forall n m, lt_bool n m = true -> n <= m.
 Proof. now induction n; destruct m; auto with arith. Qed.
 
-Hint Extern 4 (?X1 <= ?X2)%nat => 
+Global Hint Extern 4 (?X1 <= ?X2)%nat => 
    exact (le_correct X1 X2 (refl_equal true)) : core.
-Hint Extern 4 (?X1 < ?X2)%nat => 
+Global Hint Extern 4 (?X1 < ?X2)%nat => 
    exact (lt_correct X1 X2 (refl_equal true)) : core.

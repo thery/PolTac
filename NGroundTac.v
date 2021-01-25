@@ -10,7 +10,7 @@ Proof. discriminate. Qed.
 
 Close Scope N_scope.
 
-Hint Extern 4 (N.lt ?X1 ?X2) => exact (refl_equal Lt) : core.
-Hint Extern 4 (N.le ?X1 ?X2) => exact Lt_diff_Gt || exact Eq_diff_Gt : core.
+Global Hint Extern 4 (N.lt ?X1 ?X2) => exact (refl_equal Lt) : core.
+Global Hint Extern 4 (N.le ?X1 ?X2) => exact Lt_diff_Gt || exact Eq_diff_Gt : core.
 
 

@@ -61,7 +61,7 @@ Ltac rground_tac :=
     red; apply refl_equal || intros; discriminate
   end.
 
-Hint Extern 4 (_ <= _)%R => rground_tac: real.
-Hint Extern 4 (_ < _)%R => rground_tac: real.
-Hint Extern 4 (_ >= _)%R => rground_tac: real.
-Hint Extern 4 (_ > _)%R => rground_tac: real.
+Global Hint Extern 4 (_ <= _)%R => rground_tac: real.
+Global Hint Extern 4 (_ < _)%R => rground_tac: real.
+Global Hint Extern 4 (_ >= _)%R => rground_tac: real.
+Global Hint Extern 4 (_ > _)%R => rground_tac: real.
