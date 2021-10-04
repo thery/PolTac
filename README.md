@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/thery/PolTac.svg?branch=master)](https://travis-ci.org/thery/PolTac)
+[![Build Status](https://travis-ci.com/thery/PolTac.svg?branch=master)](https://travis-ci.com/thery/PolTac)
 
 # PolTac
 
