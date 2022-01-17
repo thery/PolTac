@@ -75,13 +75,13 @@ Definition isP1 e :=
 
 (* Simplification for mul when 1 or 0 *)
 
-Definition mkPEmulc (c: C) (e: PExpr) :=
+Fixpoint mkPEmulc (c: C) (e: PExpr) :=
   if isC0 c then PEc C0 else
     if isC1 c then e else
       match e with
       | (PEc c1) => PEc (Cmul c c1)
-      | (PEopp e1) => PEmul (PEc (Cop c)) e1
-      | (PEmul (PEc c1) e1) => PEmul (PEc (Cmul c c1)) e1
+      | (PEopp e1) => mkPEmulc (Cop c) e1
+      | (PEmul (PEc c1) e1) => mkPEmulc (Cmul c c1) e1
       | _ => PEmul (PEc c) e
       end.
 

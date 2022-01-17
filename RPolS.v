@@ -1,26 +1,36 @@
+Require Import QArith_base Qcanon.
 Require Import RAux.
 Require Import PolSBase.
 Require Import PolAuxList.
 Require Import PolAux.
 
+Definition Qc2R_can a := 
+  if (Pos.eqb (Qden a) 1) then IZR (Qnum a)  
+  else if (Z.eqb (Qnum a) 1) then Rinv (IZR (Z.pos (Qden a)))  
+  else (IZR (Qnum a) / IZR (Z.pos (Qden a)))%R.
 
-Definition Rconvert_back (e : PExpr Z) (l : list R) : R :=
-  convert_back Z R R0 Rplus Rminus Rmult Ropp Z2R l e.
+Definition Rconvert_back (e : PExpr Qc) (l : list R) : R :=
+  convert_back Qc R R0 Rplus Rminus Rmult Ropp Qc2R_can l e.
 
-Definition Rsimpl_minus (e : PExpr Z) :=
+Definition is_Qc1 := Qc_eq_bool 1.
+Definition is_Qc0 := Qc_eq_bool 0.
+Definition is_Qcpos x := Qle_bool 0 (this x).
+Definition is_Qcdiv (x y : Qc) := true.
+
+Definition Rsimpl_minus (e : PExpr Qc) :=
   simpl_minus
-    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e.
+    Qc Qcplus Qcmult Qcopp 0 1 is_Qc1 is_Qc0 is_Qcpos is_Qcdiv Qcdiv e.
 
-Definition Rsimpl (e : PExpr Z) :=
+Definition Rsimpl (e : PExpr Qc) :=
   simpl
-    Z Zplus Zmult Z.opp Z0 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div e.
+    Qc Qcplus Qcmult Qcopp 0 1 is_Qc1 is_Qc0 is_Qcpos is_Qcdiv Qcdiv e.
 
 Ltac rs term1 term2 :=
   let term := constr:(Rminus term1 term2) in
   let rfv := FV RCst Rplus Rmult Rminus Ropp term (@nil R) in
   let fv := Trev rfv in
-  let expr1 := mkPolexpr Z RCst Rplus Rmult Rminus Ropp term1 fv in
-  let expr2 := mkPolexpr Z RCst Rplus Rmult Rminus Ropp term2 fv in
+  let expr1 := mkPolexpr Qc RCst Rplus Rmult Rminus Ropp term1 fv in
+  let expr2 := mkPolexpr Qc RCst Rplus Rmult Rminus Ropp term2 fv in
   let re := (eval vm_compute in (Rsimpl_minus (PEsub expr1 expr2))) in
   let expr3 := match re with (PEsub ?X1 _) => X1 end in
   let expr4 := match re with (PEsub _ ?X1) => X1 end in
@@ -29,7 +39,11 @@ Ltac rs term1 term2 :=
       (eval
          unfold
          Rconvert_back, convert_back, pos_nth, jump,
-       hd, tl, Z2R, P2R in (Rconvert_back (PEadd re1 expr3) fv))
+       hd, tl, Qc2R_can, Qcanon.this, Q2Qc, Qreduction.Qred,
+        inject_Z, Z.eqb, Qden, Qnum, Z2R, P2R,
+       Pos.eqb, Z.ggcd, Z.abs, snd, Z.to_pos, Z.sgn,
+       Pos.ggcd, Pos.size_nat, Nat.add, Pos.ggcdn
+ in (Rconvert_back (PEadd re1 expr3) fv))
   in
   let re1'' := (eval lazy beta in re1') in
   let
@@ -37,10 +51,14 @@ Ltac rs term1 term2 :=
     (eval
        unfold
        Rconvert_back, convert_back, pos_nth, jump,
-     hd, tl, Z2R, P2R in (Rconvert_back (PEadd re1 expr4) fv))
+     hd, tl, Qc2R_can, Qcanon.this, Q2Qc, Qreduction.Qred,
+     inject_Z, Z.eqb, Qden, Qnum, Z2R, P2R,
+     Pos.eqb, Z.ggcd, Z.abs, snd, Z.to_pos, Z.sgn,
+     Pos.ggcd, Pos.size_nat, Nat.add, Pos.ggcdn
+     in (Rconvert_back (PEadd re1 expr4) fv))
   in
   let re2'' := (eval lazy beta in re2') in
-  replace2_tac term1 term2 re1'' re2''; [idtac| ring | ring].
+  replace2_tac term1 term2 re1'' re2''; [idtac| try field | try field].
 
 Ltac rpols :=
   match goal with

@@ -320,7 +320,6 @@ Qed.
 
 Close Scope Z_scope.
 
-
 (* Tests for R *)
 Open Scope R_scope.
 

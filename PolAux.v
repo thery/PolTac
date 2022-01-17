@@ -1,3 +1,4 @@
+Require Import Qcanon.
 Require Export Replace2.
 Require Import NAux ZAux RAux.
 Require P.
@@ -102,17 +103,17 @@ Definition Z2R (z: Z): R :=
   | Zneg z1 => (-(P2R z1))%R
   end.
 
-(* Turn a R when possible into a Z *)
+(* Turn a R when possible into a Q *)
 Ltac RCst t :=
   match t with
-  | R0 => constr:(Z0)
-  | R1 => constr:(Zpos xH)
+  | R0 => constr:(0%Qc)
+  | R1 => constr:(1%Qc)
   | Rplus ?e1 ?e2 =>
     match (RCst e1) with
     | false => constr:(false)
     | ?e3 => match (RCst e2) with
             | false => constr:(false)
-            | ?e4 =>  eval vm_compute in (Zplus e3  e4)
+            | ?e4 =>  eval vm_compute in (Qcplus e3  e4)
             end
     end
   | Rminus ?e1 ?e2 =>
@@ -120,7 +121,7 @@ Ltac RCst t :=
     | false => constr:(false)
     | ?e3 => match (RCst e2) with
             | false => constr:(false)
-            |  ?e4 => eval vm_compute in (Zminus e3  e4)
+            |  ?e4 => eval vm_compute in (Qcminus e3  e4)
             end
     end
   | Rmult ?e1 ?e2 =>
@@ -128,18 +129,31 @@ Ltac RCst t :=
     | false => constr:(false)
     | ?e3 => match (RCst e2) with
             | false => constr:(false)
-            | ?e4 => eval vm_compute in (Zmult e3  e4)
+            | ?e4 => eval vm_compute in (Qcmult e3  e4)
             end
     end
   | Ropp ?e1 =>
     match (RCst e1) with
     | false => constr:(false)
-    | ?e3 => eval vm_compute in (Z.opp e3)
+    | ?e3 => eval vm_compute in (Qcopp e3)
     end
   | IZR ?e1 =>
     match (ZCst e1) with
     | false => constr:(false)
-    | ?e3 => e3
+    | ?e3 => constr: (Q2Qc (QArith_base.Qmake e3 1))
+    end
+  | Rinv ?e1 =>
+    match (RCst e1) with
+    | false => constr:(false)
+    | ?e3 => eval vm_compute in (Qcinv e3)
+    end
+  | Rdiv ?e1 ?e2 =>
+    match (RCst e1) with
+    | false => constr:(false)
+    | ?e3 => match (RCst e2) with
+            | false => constr:(false)
+            | ?e4 => eval vm_compute in (Qcdiv e3  e4)
+            end
     end
   | _ => constr:(false)
   end.

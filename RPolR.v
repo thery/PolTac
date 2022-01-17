@@ -1,3 +1,4 @@
+Require Import QArith_base Qcanon.
 Require Import RAux.
 Require Import PolSBase.
 Require Import PolAux.
@@ -8,23 +9,25 @@ Require Import RPolF.
 
 
 Definition Rreplace_term_aux :=
-  replace Z Zplus Zmult Z.opp 0%Z 1%Z is_Z1 is_Z0 is_Zpos is_Zdiv Z.div.
-
+  replace Qc Qcplus Qcmult Qcopp 0 1 is_Qc1 is_Qc0 is_Qcpos is_Qcdiv Qcdiv.
 
 Ltac Rreplace_term term from to occ id :=
   let rfv := FV RCst Rplus Rmult Rminus Ropp term (@nil R) in
   let rfv1 := FV RCst Rplus Rmult Rminus Ropp from rfv in
   let rfv2 := FV RCst Rplus Rmult Rminus Ropp to rfv1 in
   let fv := Trev rfv2 in
-  let expr := mkPolexpr Z RCst Rplus Rmult Rminus Ropp term fv in
-  let expr_from := mkPolexpr Z RCst Rplus Rmult Rminus Ropp from fv in
-  let expr_to := mkPolexpr Z RCst Rplus Rmult Rminus Ropp to fv in
+  let expr := mkPolexpr Qc RCst Rplus Rmult Rminus Ropp term fv in
+  let expr_from := mkPolexpr Qc RCst Rplus Rmult Rminus Ropp from fv in
+  let expr_to := mkPolexpr Qc RCst Rplus Rmult Rminus Ropp to fv in
   let re := (eval vm_compute in (Rreplace_term_aux expr expr_from expr_to occ)) in
   let term1 :=
       (eval
          unfold
          Rconvert_back, convert_back, pos_nth, jump,
-       hd, tl, Z2R, P2R in (Rconvert_back re fv))
+       hd, tl, Qc2R_can, Qcanon.this, Z.eqb, Qden, Qnum, P2R, 
+       Pos.eqb, Z.ggcd, Z.abs, snd, Z.to_pos, Z.sgn,
+       Pos.ggcd, Pos.size_nat, Nat.add, Pos.ggcdn
+        in (Rconvert_back re fv))
   in
   match id with
   | true => term1
@@ -138,7 +141,7 @@ Ltac Rreplace_tac_full_id term dir1 dir2 occ :=
     match dir1 with
     | P.L => R_eq_trans_l t1
     | P.R => R_eq_trans_r t1
-    end; [ring | idtac]
+    end; [field | idtac]
   end.
 
 Ltac rpolrx term dir1 dir2 occ :=
