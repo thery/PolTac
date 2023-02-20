@@ -2,6 +2,7 @@ Require Import Qcanon.
 Require Export Replace2.
 Require Import NAux ZAux RAux.
 Require P.
+Require Import NatAux.
 
 (* Definition of the opposite for nat *)
 Definition Natopp := (fun x:nat => 0%nat).
@@ -33,7 +34,6 @@ Ltac NatCst t :=
   | false => constr:(false)
   | _ => let res := eval compute in (Z_of_nat t) in constr:(res)
   end.
-
 
 (* Check if a number is a positive *)
 Ltac is_PCst p :=
@@ -197,56 +197,56 @@ Ltac eqterm t1 t2 :=
 
 (* For replace *)
 
-Theorem trans_equal_r : forall (A : Set) (x y z :A), y = z -> x = y -> x = z.
+Theorem trans_equal_r (A : Set) (x y z : A) : y = z -> x = y -> x = z.
 Proof. intros; apply trans_equal with y; auto. Qed.
 
 (* Theorems for nat *)
 
 Open Scope nat_scope.
 
-Theorem plus_eq_compat_l: forall a b c, b = c -> a + b = a + c.
+Theorem plus_eq_compat_l a b c : b = c -> a + b = a + c.
 Proof. intros; apply f_equal2 with (f := plus); auto. Qed.
 
-Theorem plus_neg_compat_l: forall a b c, b <> c -> a + b <> a + c.
-Proof. intros a b c H H1; case H; apply plus_reg_l with a; auto. Qed.
+Theorem plus_neg_compat_l a b c : b <> c -> a + b <> a + c.
+Proof. intros H H1; case H; apply Nat.add_cancel_l with a; auto. Qed.
 
-Theorem plus_ge_compat_l: forall n m p : nat, n >= m -> p + n >= p + m.
-Proof. intros n m p H; unfold ge; apply plus_le_compat_l; auto. Qed.
+Theorem plus_ge_compat_l n m p : n >= m -> p + n >= p + m.
+Proof. intros H; unfold ge; apply plus_le_compat_l; auto. Qed.
 
-Theorem plus_neg_reg_l: forall a b c,  a + b <> a + c -> b <> c.
-Proof. intros a b c H H1; case H; subst; auto. Qed.
+Theorem plus_neg_reg_l a b c : a + b <> a + c -> b <> c.
+Proof. intros H H1; case H; subst; auto. Qed.
 
-Theorem plus_ge_reg_l: forall n m p : nat, p + n >= p + m -> n >= m.
-Proof. intros n m p H; unfold ge; apply plus_le_reg_l with p; auto. Qed.
+Theorem plus_ge_reg_l n m p : p + n >= p + m -> n >= m.
+Proof. intros H; unfold ge; apply plus_le_reg_l with p; auto. Qed.
 
 (* For replace *)
 
-Theorem eq_lt_trans_l : forall x y z, x = z -> x < y -> z < y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_lt_trans_l x y z : x = z -> x < y -> z < y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_lt_trans_r : forall x y z, y = z -> x < y -> x < z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_lt_trans_r x y z : y = z -> x < y -> x < z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_gt_trans_l : forall x y z, x = z -> x > y -> z > y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_gt_trans_l x y z : x = z -> x > y -> z > y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_gt_trans_r : forall x y z, y = z -> x > y -> x > z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_gt_trans_r x y z : y = z -> x > y -> x > z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_le_trans_l : forall x y z, x = z -> x <= y -> z <= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_le_trans_l x y z : x = z -> x <= y -> z <= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_le_trans_r : forall x y z, y = z -> x <= y -> x <= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_le_trans_r x y z : y = z -> x <= y -> x <= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_ge_trans_l : forall x y z, x = z -> x >= y -> z >= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_ge_trans_l x y z : x = z -> x >= y -> z >= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_ge_trans_r : forall x y z, y = z -> x >= y -> x >= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_ge_trans_r x y z : y = z -> x >= y -> x >= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem ge_trans: forall x y z, x >= z -> z >= y -> x >= y.
-Proof. intros x y z H1 H2; red; apply le_trans with z; auto. Qed.
+Theorem ge_trans x y z : x >= z -> z >= y -> x >= y.
+Proof. intros H1 H2; red; apply le_trans with z; auto. Qed.
 
 Close Scope nat_scope.
 
@@ -254,65 +254,65 @@ Close Scope nat_scope.
 
 Open Scope N_scope.
 
-Theorem Nplus_eq_compat_l: forall a b c, b = c -> a + b = a + c.
+Theorem Nplus_eq_compat_l a b c : b = c -> a + b = a + c.
 Proof. intros; apply f_equal2 with (f:= Nplus); auto. Qed.
 
-Theorem Nplus_neg_compat_l: forall a b c, b <> c -> a + b <> a + c.
-Proof. intros a b c H1 H2; case H1; apply Nplus_reg_l with a; auto. Qed.
+Theorem Nplus_neg_compat_l a b c : b <> c -> a + b <> a + c.
+Proof. intros H1 H2; case H1; apply Nplus_reg_l with a; auto. Qed.
 
-Theorem Nplus_lt_compat_l: forall n m p, n < m -> p + n < p + m.
+Theorem Nplus_lt_compat_l n m p : n < m -> p + n < p + m.
 Proof. intros; to_nat; auto with arith. Qed.
 
-Theorem Nplus_gt_compat_l: forall n m p, n > m -> p + n > p + m.
+Theorem Nplus_gt_compat_l n m p : n > m -> p + n > p + m.
 Proof. intros; to_nat; auto with arith. Qed.
 
-Theorem Nplus_le_compat_l: forall n m p, n <= m -> p + n <= p + m.
+Theorem Nplus_le_compat_l n m p : n <= m -> p + n <= p + m.
 Proof. intros; to_nat; auto with arith. Qed.
 
-Theorem Nplus_ge_compat_l: forall n m p, n >= m -> p + n >= p + m.
+Theorem Nplus_ge_compat_l n m p : n >= m -> p + n >= p + m.
 Proof. intros; to_nat; auto with arith. Qed.
 
-Theorem Nplus_neg_reg_l: forall a b c,  a + b <> a + c -> b <> c.
-Proof. intros a b c H H1; case H; apply f_equal2 with (f:= Nplus); auto. Qed.
+Theorem Nplus_neg_reg_l a b c :  a + b <> a + c -> b <> c.
+Proof. intros H H1; case H; apply f_equal2 with (f:= Nplus); auto. Qed.
 
-Theorem Nplus_lt_reg_l: forall n m p, p + n < p + m -> n < m.
+Theorem Nplus_lt_reg_l n m p : p + n < p + m -> n < m.
 Proof. intros; to_nat; apply plus_lt_reg_l with nn1; auto with arith. Qed.
 
 Theorem Nplus_gt_reg_l: forall n m p, p + n > p + m -> n > m.
 Proof. intros; to_nat; apply plus_gt_reg_l with nn1; auto with arith. Qed.
 
-Theorem Nplus_le_reg_l: forall n m p, p + n <= p + m -> n <= m.
+Theorem Nplus_le_reg_l n m p : p + n <= p + m -> n <= m.
 Proof. intros; to_nat; apply plus_le_reg_l with nn1; auto with arith. Qed.
 
-Theorem Nplus_ge_reg_l: forall n m p, p + n >= p + m -> n >= m.
+Theorem Nplus_ge_reg_l n m p : p + n >= p + m -> n >= m.
 Proof. intros; to_nat; apply plus_ge_reg_l with nn1; auto with arith. Qed.
 
 (* For replace *)
-Theorem Neq_lt_trans_l : forall x y z, x = z -> x < y -> z < y.
+Theorem Neq_lt_trans_l x y z : x = z -> x < y -> z < y.
 Proof. intros; subst; auto. Qed.
 
-Theorem Neq_lt_trans_r : forall x y z, y = z -> x < y -> x < z.
+Theorem Neq_lt_trans_r x y z : y = z -> x < y -> x < z.
 Proof. intros; subst; auto. Qed.
 
-Theorem Neq_gt_trans_l : forall x y z, x = z -> x > y -> z > y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem Neq_gt_trans_l x y z : x = z -> x > y -> z > y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Neq_gt_trans_r : forall x y z, y = z -> x > y -> x > z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem Neq_gt_trans_r x y z : y = z -> x > y -> x > z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Neq_le_trans_l : forall x y z, x = z -> x <= y -> z <= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem Neq_le_trans_l x y z : x = z -> x <= y -> z <= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Neq_le_trans_r : forall x y z, y = z -> x <= y -> x <= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem Neq_le_trans_r x y z : y = z -> x <= y -> x <= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Neq_ge_trans_l : forall x y z, x = z -> x >= y -> z >= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem Neq_ge_trans_l x y z : x = z -> x >= y -> z >= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Neq_ge_trans_r : forall x y z, y = z -> x >= y -> x >= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem Neq_ge_trans_r x y z : y = z -> x >= y -> x >= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Nge_trans: forall x y z, (x >= z) -> (z >= y) -> (x >= y).
+Theorem Nge_trans x y z : (x >= z) -> (z >= y) -> (x >= y).
 Proof. intros; to_nat; red; apply le_trans with nn1; auto with arith. Qed.
 
 Close Scope N_scope.
@@ -323,32 +323,32 @@ Open Scope Z_scope.
 
 (* For replace *)
 
-Theorem eq_Zlt_trans_l : forall x y z, x = z -> x < y -> z < y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zlt_trans_l x y z : x = z -> x < y -> z < y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zlt_trans_r : forall x y z, y = z -> x < y -> x < z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zlt_trans_r x y z : y = z -> x < y -> x < z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zgt_trans_l : forall x y z, x = z -> x > y -> z > y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zgt_trans_l x y z : x = z -> x > y -> z > y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zgt_trans_r : forall x y z, y = z -> x > y -> x > z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zgt_trans_r x y z : y = z -> x > y -> x > z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zle_trans_l : forall x y z, x = z -> x <= y -> z <= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zle_trans_l x y z : x = z -> x <= y -> z <= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zle_trans_r : forall x y z, y = z -> x <= y -> x <= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zle_trans_r x y z : y = z -> x <= y -> x <= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zge_trans_l : forall x y z, x = z -> x >= y -> z >= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zge_trans_l x y z : x = z -> x >= y -> z >= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Zge_trans_r : forall x y z, y = z -> x >= y -> x >= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Zge_trans_r x y z : y = z -> x >= y -> x >= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Zge_trans: forall x y z, x >= z -> z >= y -> x >= y.
-Proof. intros x y z H1 H2; red; apply Zge_trans with z; auto. Qed.
+Theorem Zge_trans x y z : x >= z -> z >= y -> x >= y.
+Proof. intros H1 H2; red; apply Zge_trans with z; auto. Qed.
 
 Close Scope Z_scope.
 
@@ -358,38 +358,38 @@ Open Scope R_scope.
 
 (* For replace *)
 
-Theorem eq_Rlt_trans_l : forall x y z, x = z -> x < y -> z < y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rlt_trans_l x y z : x = z -> x < y -> z < y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rlt_trans_r : forall x y z, y = z -> x < y -> x < z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rlt_trans_r x y z : y = z -> x < y -> x < z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rgt_trans_l : forall x y z, x = z -> x > y -> z > y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rgt_trans_l x y z : x = z -> x > y -> z > y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rgt_trans_r : forall x y z, y = z -> x > y -> x > z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rgt_trans_r x y z : y = z -> x > y -> x > z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rle_trans_l : forall x y z, x = z -> x <= y -> z <= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rle_trans_l x y z : x = z -> x <= y -> z <= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rle_trans_r : forall x y z, y = z -> x <= y -> x <= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rle_trans_r x y z : y = z -> x <= y -> x <= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rge_trans_l : forall x y z, x = z -> x >= y -> z >= y.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rge_trans_l x y z : x = z -> x >= y -> z >= y.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem eq_Rge_trans_r : forall x y z, y = z -> x >= y -> x >= z.
-Proof. intros x y z H; rewrite H; auto. Qed.
+Theorem eq_Rge_trans_r x y z : y = z -> x >= y -> x >= z.
+Proof. intros H; rewrite H; auto. Qed.
 
-Theorem Rge_trans: forall x y z, (x >= z) -> (z >= y) -> (x >= y).
-Proof. intros x y z H1 H2; red; apply Rge_trans with z; auto. Qed.
+Theorem Rge_trans x y z : (x >= z) -> (z >= y) -> (x >= y).
+Proof. intros H1 H2; red; apply Rge_trans with z; auto. Qed.
 
 (* For RGroundTac *)
 
-Theorem Z2R_correct: forall p, Z2R p = IZR p.
+Theorem Z2R_correct p : Z2R p = IZR p.
 Proof.
-intros p; case p; auto.
+case p; auto.
 intros p1; elim p1; auto.
 intros p2 Rec; pattern (Zpos (xI p2)) at 2;
   replace (Zpos (xI p2)) with (2 * (Zpos p2) +1)%Z by auto.
@@ -410,18 +410,18 @@ rewrite mult_IZR; rewrite <- Rec.
 simpl Z2R; simpl IZR; case p2; intros; simpl (P2R 1); ring.
 Qed.
 
-Theorem Z2R_le: forall p q, (p <= q)%Z -> (Z2R p <= Z2R q)%R.
-Proof. intros p q; repeat rewrite Z2R_correct; intros; apply IZR_le; auto. Qed.
+Theorem Z2R_le p q : (p <= q)%Z -> (Z2R p <= Z2R q)%R.
+Proof. repeat rewrite Z2R_correct; intros; apply IZR_le; auto. Qed.
 
-Theorem Z2R_lt: forall p q, (p < q)%Z -> (Z2R p < Z2R q)%R.
-Proof. intros p q; repeat rewrite Z2R_correct; intros; apply IZR_lt; auto. Qed.
+Theorem Z2R_lt p q : (p < q)%Z -> (Z2R p < Z2R q)%R.
+Proof. repeat rewrite Z2R_correct; intros; apply IZR_lt; auto. Qed.
 
-Theorem Z2R_ge: forall p q, (p >= q)%Z -> (Z2R p >= Z2R q)%R.
-Proof. intros p q; repeat rewrite Z2R_correct; intros; apply IZR_ge; auto. Qed.
+Theorem Z2R_ge p q : (p >= q)%Z -> (Z2R p >= Z2R q)%R.
+Proof. repeat rewrite Z2R_correct; intros; apply IZR_ge; auto. Qed.
 
-Theorem Z2R_gt: forall p q, (p > q)%Z -> (Z2R p > Z2R q)%R.
+Theorem Z2R_gt p q : (p > q)%Z -> (Z2R p > Z2R q)%R.
 Proof.
-intros p q; repeat rewrite Z2R_correct; intros; red; apply IZR_lt;
+repeat rewrite Z2R_correct; intros; red; apply IZR_lt;
   apply Z.gt_lt; auto.
 Qed.
 

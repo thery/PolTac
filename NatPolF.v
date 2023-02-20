@@ -55,7 +55,7 @@ Ltac npolf :=
          | |- le ?X1 ?X2 => Natfactor_term X1 X2
          | |- ge ?X1 ?X2 => Natfactor_term X1 X2
          | _ => fail end);
-  try nsign_tac; try repeat (rewrite mult_1_l || rewrite mult_1_r).
+  try nsign_tac; try repeat (rewrite  Nat.mul_1_l || rewrite Nat.mul_1_r).
 
 Ltac hyp_npolf H :=
   progress
@@ -69,4 +69,4 @@ Ltac hyp_npolf H :=
          | ge ?X1 ?X2 => Natfactor_term X1 X2
          | _ => fail end);
   clear H; intros H;
-  try hyp_nsign_tac H; try repeat rewrite mult_1_l in H.
+  try hyp_nsign_tac H; try repeat rewrite Nat.mul_1_l in H.

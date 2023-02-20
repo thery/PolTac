@@ -2,6 +2,8 @@ Require Import PolTac.
 
 Open Scope nat_scope.
 
+Set Ltac Backtrace.
+
 Theorem pols_test1 x y :
   x < y -> x + x < y + x.
 Proof.

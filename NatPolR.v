@@ -119,18 +119,18 @@ Ltac Natreplace_tac_full term dir1 dir2 occ :=
       apply ge_trans with t
     | |- (?X <= ?Y)%nat =>
       let t := npol_replace_term (X <= Y)%nat term dir1 dir2 occ false in
-      apply le_trans with t
+      apply Nat.le_trans  with t
     | |- (?X > ?Y)%nat =>
       let t := npol_replace_term (X > Y)%nat term dir1 dir2 occ false in
       match npol_aux_dir term dir1 with
-      | P.L => apply gt_le_trans with t
-      | P.R => apply le_gt_trans with t
+      | P.L => apply Nat.le_lt_trans with t
+      | P.R => apply Nat.lt_le_trans with t
       end
     | |- (?X < ?Y)%nat =>
       let t := npol_replace_term (X < Y)%nat term dir1 dir2 occ false in
       match npol_aux_dir term dir1 with
-      | P.L => apply lt_le_trans with t
-      | P.R => apply le_lt_trans with t
+      | P.L => apply Nat.lt_le_trans with t
+      | P.R => apply Nat.le_lt_trans with t
       end
     end
   end.

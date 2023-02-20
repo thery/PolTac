@@ -48,9 +48,9 @@ Ltac npols :=
   match goal with
   | |- (?X1 = ?X2)%nat => ns X1 X2; apply plus_eq_compat_l
   | |- (?X1 <> ?X2)%nat => ns X1 X2; apply plus_neg_compat_l
-  | |- lt ?X1 ?X2 => ns X1 X2; apply plus_lt_compat_l
-  | |- gt ?X1 ?X2 => ns X1 X2; apply plus_gt_compat_l
-  | |- le ?X1 ?X2 => ns X1 X2; apply plus_le_compat_l
+  | |- lt ?X1 ?X2 => ns X1 X2; apply Nat.add_lt_mono_l
+  | |- gt ?X1 ?X2 => ns X1 X2; apply Nat.add_lt_mono_l
+  | |- le ?X1 ?X2 => ns X1 X2; apply Nat.add_le_mono_l
   | |- ge ?X1 ?X2 => ns X1 X2; apply plus_ge_compat_l
   | _ => fail
   end.
@@ -60,16 +60,22 @@ Ltac hyp_npols H :=
   let tmp := fresh "tmp" in
   match (type of H) with
   | (?X1 = ?X2)%nat =>
-    ns X1 X2; intros tmp; generalize (plus_reg_l _ _ _ tmp); clear H tmp; intro H
+    ns X1 X2; intros tmp; 
+    generalize (Nat.add_cancel_l _ _ _ tmp); clear H tmp; intro H
   | (?X1 <> ?X2)%nat =>
-    ns X1 X2; intros tmp; generalize (plus_neg_reg_l _ _ _ tmp); clear H tmp; intro H
+    ns X1 X2; intros tmp; 
+    generalize (plus_neg_reg_l _ _ _ tmp); clear H tmp; intro H
   | lt ?X1 ?X2 =>
-    ns X1 X2; intros tmp; generalize (plus_lt_reg_l _ _ _ tmp); clear H tmp; intro H
+    ns X1 X2; intros tmp; 
+    generalize (Nat.add_lt_mono_l _ _ _ tmp); clear H tmp; intro H
   | gt ?X1 ?X2 =>
-    ns X1 X2; intros tmp; generalize (plus_gt_reg_l _ _ _ tmp); clear H tmp; intro H
+    ns X1 X2; intros tmp; 
+    generalize (Nat.add_lt_mono_l _ _ _ tmp); clear H tmp; intro H
   | le ?X1 ?X2 =>
-    ns X1 X2; intros tmp; generalize (plus_le_reg_l _ _ _ tmp); clear H tmp; intro H
+    ns X1 X2; intros tmp; generalize 
+    (Nat.add_le_mono_l _ _ _ tmp); clear H tmp; intro H
   | ge ?X1 ?X2 =>
-    ns X1 X2; intros tmp; generalize (plus_ge_reg_l _ _ _ tmp); clear H tmp; intro H
+    ns X1 X2; intros tmp; 
+    generalize (plus_ge_reg_l _ _ _ tmp); clear H tmp; intro H
   | _ => fail
   end.

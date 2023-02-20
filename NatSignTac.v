@@ -2,9 +2,8 @@
 Require Import NatAux.
 Require Export NatGroundTac.
 
-
 Ltac nsign_tac :=
-  repeat (apply mult_le_compat_l || apply mult_lt_compat_l ||
+  repeat (apply Nat.mul_le_mono_l || apply mult_lt_compat_l ||
           apply mult_ge_compat_l || apply mult_gt_compat_l ||
           apply lt_mult_0 || apply gt_mult_0); auto with arith.
 
@@ -56,10 +55,11 @@ Ltac hyp_nsign_tac H :=
 (* Test *)
 Section Test.
 
-Let hyp_test : forall a b c d e,
-  0 <= a -> 0 < a -> a * b <= a * c -> b * a <= b * c -> d <= 0 -> e < 0 -> d = 0.
+Let hyp_test a b c d e :
+  0 <= a -> 0 < a -> a * b <= a * c -> b * a <= b * c -> 
+  d <= 0 -> e < 0 -> d = 0.
 Proof.
-intros a b c d e H H1 H2 H3 H4 H5.
+intros H H1 H2 H3 H4 H5.
 (* H should disappear *)
 hyp_nsign_tac H.
 (* a in H2 should disappear *)
@@ -72,10 +72,11 @@ hyp_nsign_tac H4.
 hyp_nsign_tac H5.
 Qed.
 
-Let hyp_test1 : forall a b c d e,
-  a >= 0 -> a > 0 -> a * b > a * c -> b * a >= b * c -> 0 >= d -> 0 > e -> d = 0.
+Let hyp_test1 a b c d e :
+  a >= 0 -> a > 0 -> a * b > a * c -> b * a >= b * c -> 0 >= d -> 0 > e -> 
+  d = 0.
 Proof.
-intros a b c d e H H1 H2 H3 H4 H5.
+intros H H1 H2 H3 H4 H5.
 (* H should disappear *)
 hyp_nsign_tac H.
 (* a in H2 should disappear *)
