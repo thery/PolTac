@@ -124,4 +124,4 @@ ______________________________________(1/1)
 
 ----
 
-Laurent.Thery@sophia.inria.fr
+Laurent.Thery@inria.fr
