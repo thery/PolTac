@@ -1,6 +1,16 @@
-[![Build Status](https://travis-ci.com/thery/PolTac.svg?branch=master)](https://travis-ci.com/thery/PolTac)
+<!---
+This file was generated from `meta.yml`, please do not edit manually.
+Follow the instructions on https://github.com/coq-community/templates to regenerate.
+--->
+# Poltac
 
-# PolTac
+[![Docker CI][docker-action-shield]][docker-action-link]
+
+[docker-action-shield]: https://github.com/thery/poltac/workflows/Docker%20CI/badge.svg?branch=master
+[docker-action-link]: https://github.com/thery/poltac/actions?query=workflow:"Docker%20CI"
+
+
+
 
 A set of tactics to deal with inequalities in Coq over N, Z and R:
 
@@ -27,6 +37,7 @@ Require Import PolTac.
 See `Nex.v`, `Zex.v` and `Rex.v`.
 
 ### Demo: a running example (`polr_test2` in `Rex.v`)
+
 
 ```coq
 1 subgoal
@@ -100,6 +111,7 @@ x + z < y
 ______________________________________(2/2)
 y + y <= 2 * y
 ```
+```
 
 This exactly `H2`.
 
@@ -123,5 +135,28 @@ ______________________________________(1/1)
 ```
 
 ----
-
 Laurent.Thery@inria.fr
+
+## Meta
+
+- Author(s):
+  - Laurent Théry
+- License: [MIT License](LICENSE)
+- Compatible Coq versions: 8.16 or later
+- Additional dependencies: none
+- Coq namespace: `PolTac`
+- Related publication(s): none
+
+## Building and installation instructions
+
+To build and install manually, do:
+
+``` shell
+git clone https://github.com/thery/poltac.git
+cd poltac
+make   # or make -j <number-of-cores-on-your-machine> 
+make install
+```
+
+
+
