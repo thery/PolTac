@@ -104,7 +104,7 @@ Qed.
 Theorem Nmult_le_compat_l n m p : n <= m -> p * n <= p * m.
 Proof.
 intros H1; apply Nle_le; repeat rewrite N2Nat.inj_mul.
-apply mult_le_compat_l; apply le_Nle; repeat rewrite N2Nat.id; auto.
+apply Nat.mul_le_mono_l; apply le_Nle; repeat rewrite N2Nat.id; auto.
 Qed.
 
 Theorem Nmult_ge_compat_l n m p : n >= m -> p * n >= p * m.
@@ -240,10 +240,10 @@ Ltac set_to_nat :=
 Ltac to_nat := repeat to_nat_op; repeat set_to_nat.
 
 Theorem Nle_gt_trans n m p : m <= n -> m > p -> n > p.
-Proof. intros; to_nat; apply le_gt_trans with nn1; auto. Qed.
+Proof. intros; to_nat; apply Nat.lt_le_trans with nn1; auto. Qed.
 
 Theorem Ngt_le_trans n m p : n > m -> p <= m -> n > p.
-Proof. intros; to_nat; apply gt_le_trans with nn1; auto. Qed.
+Proof. intros; to_nat; apply Nat.le_lt_trans with nn1; auto. Qed.
 
 Theorem Nle_add_l x y : x <= y + x.
 Proof. intros; to_nat; auto with arith. Qed.

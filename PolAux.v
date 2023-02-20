@@ -2,7 +2,6 @@ Require Import Qcanon.
 Require Export Replace2.
 Require Import NAux ZAux RAux.
 Require P.
-Require Import NatAux.
 
 (* Definition of the opposite for nat *)
 Definition Natopp := (fun x:nat => 0%nat).
@@ -211,13 +210,13 @@ Theorem plus_neg_compat_l a b c : b <> c -> a + b <> a + c.
 Proof. intros H H1; case H; apply Nat.add_cancel_l with a; auto. Qed.
 
 Theorem plus_ge_compat_l n m p : n >= m -> p + n >= p + m.
-Proof. intros H; unfold ge; apply plus_le_compat_l; auto. Qed.
+Proof. intros H; unfold ge; apply Nat.add_le_mono_l; auto. Qed.
 
 Theorem plus_neg_reg_l a b c : a + b <> a + c -> b <> c.
 Proof. intros H H1; case H; subst; auto. Qed.
 
 Theorem plus_ge_reg_l n m p : p + n >= p + m -> n >= m.
-Proof. intros H; unfold ge; apply plus_le_reg_l with p; auto. Qed.
+Proof. intros H; unfold ge; apply Nat.add_le_mono_l with p; auto. Qed.
 
 (* For replace *)
 
@@ -246,7 +245,7 @@ Theorem eq_ge_trans_r x y z : y = z -> x >= y -> x >= z.
 Proof. intros H; rewrite H; auto. Qed.
 
 Theorem ge_trans x y z : x >= z -> z >= y -> x >= y.
-Proof. intros H1 H2; red; apply le_trans with z; auto. Qed.
+Proof. intros H1 H2; red; apply Nat.le_trans with z; auto. Qed.
 
 Close Scope nat_scope.
 
@@ -276,13 +275,13 @@ Theorem Nplus_neg_reg_l a b c :  a + b <> a + c -> b <> c.
 Proof. intros H H1; case H; apply f_equal2 with (f:= Nplus); auto. Qed.
 
 Theorem Nplus_lt_reg_l n m p : p + n < p + m -> n < m.
-Proof. intros; to_nat; apply plus_lt_reg_l with nn1; auto with arith. Qed.
+Proof. intros; to_nat; apply Nat.add_lt_mono_l with nn1; auto with arith. Qed.
 
 Theorem Nplus_gt_reg_l: forall n m p, p + n > p + m -> n > m.
-Proof. intros; to_nat; apply plus_gt_reg_l with nn1; auto with arith. Qed.
+Proof. intros; to_nat; apply Nat.add_lt_mono_l with nn1; auto with arith. Qed.
 
 Theorem Nplus_le_reg_l n m p : p + n <= p + m -> n <= m.
-Proof. intros; to_nat; apply plus_le_reg_l with nn1; auto with arith. Qed.
+Proof. intros; to_nat; apply Nat.add_le_mono_l with nn1; auto with arith. Qed.
 
 Theorem Nplus_ge_reg_l n m p : p + n >= p + m -> n >= m.
 Proof. intros; to_nat; apply plus_ge_reg_l with nn1; auto with arith. Qed.
@@ -313,7 +312,7 @@ Theorem Neq_ge_trans_r x y z : y = z -> x >= y -> x >= z.
 Proof. intros H; rewrite H; auto. Qed.
 
 Theorem Nge_trans x y z : (x >= z) -> (z >= y) -> (x >= y).
-Proof. intros; to_nat; red; apply le_trans with nn1; auto with arith. Qed.
+Proof. intros; to_nat; red; apply Nat.le_trans with nn1; auto with arith. Qed.
 
 Close Scope N_scope.
 

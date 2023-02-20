@@ -73,14 +73,3 @@ Qed.
 
 Theorem le_0_eq_0 n : n <= 0 -> n = 0.
 Proof. case n; auto with arith. Qed.
-
-Definition le_gt_trans := Nat.lt_le_trans.
-Definition gt_le_trans := Nat.le_lt_trans.
-Definition mult_le_compat_l := Nat.mul_le_mono_l.
-Definition plus_le_compat_l := Nat.add_le_mono_l.
-Definition plus_le_reg_l := Nat.add_le_mono_l.
-Definition le_trans := Nat.le_trans.
-Definition plus_lt_reg_l := Nat.add_lt_mono_l.
-Definition plus_gt_reg_l := Nat.add_lt_mono_l.
-Definition plus_lt_compat_l := Nat.add_lt_mono_l.
-Definition plus_gt_compat_l :=  Nat.add_lt_mono_l.
