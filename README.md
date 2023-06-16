@@ -142,7 +142,7 @@ Laurent.Thery@inria.fr
 - Author(s):
   - Laurent Théry
 - License: [MIT License](LICENSE)
-- Compatible Coq versions: 8.16 or later
+- Compatible Coq versions: 8.17 or later
 - Additional dependencies: none
 - Coq namespace: `PolTac`
 - Related publication(s): none

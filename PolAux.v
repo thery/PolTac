@@ -11,6 +11,8 @@ Definition Nopp := (fun x:N => 0%N).
 
 (* Auxillary functions for Z *)
 
+Notation Zmod := BinIntDef.Z.modulo.
+
 Definition is_Z0 := Zeq_bool 0.
 Definition is_Z1 := Zeq_bool 1.
 Definition is_Zpos := Zle_bool 0.
