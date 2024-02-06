@@ -6,8 +6,8 @@ Follow the instructions on https://github.com/coq-community/templates to regener
 
 [![Docker CI][docker-action-shield]][docker-action-link]
 
-[docker-action-shield]: https://github.com/thery/poltac/workflows/Docker%20CI/badge.svg?branch=master
-[docker-action-link]: https://github.com/thery/poltac/actions?query=workflow:"Docker%20CI"
+[docker-action-shield]: https://github.com/thery/poltac/actions/workflows/docker-action.yml/badge.svg?branch=master
+[docker-action-link]: https://github.com/thery/poltac/actions/workflows/docker-action.yml
 
 
 
@@ -142,12 +142,13 @@ Laurent.Thery@inria.fr
 - Author(s):
   - Laurent Théry
 - License: [MIT License](LICENSE)
-- Compatible Coq versions: 8.17 or later
+- Compatible Coq versions: 8.19 or later
 - Additional dependencies: none
 - Coq namespace: `PolTac`
 - Related publication(s): none
 
 ## Building and installation instructions
+
 
 To build and install manually, do:
 
