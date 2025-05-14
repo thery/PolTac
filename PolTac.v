@@ -1,5 +1,5 @@
-Require Export ArithRing.
-Require Export NArithRing.
+From Stdlib Require Export ArithRing.
+From Stdlib Require Export NArithRing.
 
 Require Import NatSignTac.
 Require Import NSignTac.

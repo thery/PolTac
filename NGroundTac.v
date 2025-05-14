@@ -1,4 +1,4 @@
-Require Import NArith.
+From Stdlib Require Import NArith.
 
 Open Scope N_scope.
 

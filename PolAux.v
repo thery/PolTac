@@ -1,4 +1,4 @@
-Require Import Qcanon.
+From Stdlib Require Import Qcanon.
 Require Export Replace2.
 Require Import NAux ZAux RAux.
 Require P.
@@ -13,11 +13,11 @@ Definition Nopp := (fun x:N => 0%N).
 
 Notation Zmod := BinIntDef.Z.modulo.
 
-Definition is_Z0 := Zeq_bool 0.
-Definition is_Z1 := Zeq_bool 1.
-Definition is_Zpos := Zle_bool 0.
+Definition is_Z0 := Z.eqb 0.
+Definition is_Z1 := Z.eqb 1.
+Definition is_Zpos := Z.leb 0.
 Definition is_Zdiv x y :=
-  if Zeq_bool x Z0 then false else Zeq_bool Z0 (Zmod y x).
+  if Z.eqb x Z0 then false else Z.eqb Z0 (Zmod y x).
 Definition Zgcd x y :=
   if is_Zdiv x y then x else if is_Zdiv y x then y else 1%Z.
 

@@ -1,4 +1,4 @@
-Require Import NArith.
+From Stdlib Require Import NArith.
 Require Import PolTac.
 
 Open Scope N_scope.

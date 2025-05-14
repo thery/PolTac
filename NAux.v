@@ -1,5 +1,5 @@
-Require Export NArith.
-Require Import ZArith.
+From Stdlib Require Export NArith.
+From Stdlib Require Import ZArith.
 Require Import NatAux.
 
 Open Scope N_scope.

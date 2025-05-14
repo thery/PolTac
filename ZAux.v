@@ -1,4 +1,4 @@
-Require Export ZArith.
+From Stdlib Require Export ZArith.
 
 Open Scope Z_scope.
 

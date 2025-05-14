@@ -1,7 +1,7 @@
 (* Ugly tacty to resolve sign condition for Z *)
 Require Import ZAux.
 Require Import Replace2.
-Require Import List.
+From Stdlib Require Import List.
 
 
 Definition Zsign_type := fun (x y : list Z) => Prop.

@@ -1,5 +1,5 @@
-Require Import Qcanon Qreals.
-Require Import Reals.
+From Stdlib Require Import Qcanon Qreals.
+From Stdlib Require Import Reals.
 Require Import PolAux.
 
 Ltac RCst0 t :=

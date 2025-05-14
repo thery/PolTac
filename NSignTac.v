@@ -1,7 +1,7 @@
 (* Ugly tacty to resolve sign condition for N *)
 Require Import NAux.
 Require Export NGroundTac.
-Require Import List.
+From Stdlib Require Import List.
 
 Open Scope N_scope.
 

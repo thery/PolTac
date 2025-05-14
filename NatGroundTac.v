@@ -1,4 +1,4 @@
-Require Import Arith.
+From Stdlib Require Import Arith.
 
 Fixpoint le_bool (n m: nat) {struct n}: bool :=
   match n, m with

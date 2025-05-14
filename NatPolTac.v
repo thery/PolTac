@@ -1,5 +1,5 @@
 Require Export NatAux.
-Require Export ArithRing.
+From Stdlib Require Export ArithRing.
 Require Export NatPolS.
 Require Export NatPolF.
 Require Export NatPolR.

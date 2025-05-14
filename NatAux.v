@@ -1,4 +1,4 @@
-Require Export Arith.
+From Stdlib Require Export Arith.
 
 Theorem mult_lt_compat_l n m p : n < m -> 0 < p -> p * n < p * m.
 Proof.

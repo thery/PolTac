@@ -1,7 +1,7 @@
 (* Ugly tacty to resolve sign condition for R *)
 Require Import RAux.
 Require Export RGroundTac.
-Require Import List.
+From Stdlib Require Import List.
 Require Import Replace2.
 
 

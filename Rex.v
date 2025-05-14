@@ -1,4 +1,4 @@
-Require Import Reals.
+From Stdlib Require Import Reals.
 Require Import PolTac.
 
 Open Scope R_scope.

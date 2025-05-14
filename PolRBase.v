@@ -1,4 +1,4 @@
-Require Import Arith.
+From Stdlib Require Import Arith.
 Require Import PolSBase.
 
 Section PolReplaceBase.
@@ -150,7 +150,7 @@ Definition replace (e from to : PExpr C) (n : Z) :=
       | Z0 => make_all_const true c
       | Zpos n1 => make_one_true c (pred (nat_of_P n1))
       | Zneg n1 =>
-        if Zlt_bool (Z_of_nat c) n
+        if Z.ltb (Z_of_nat c) n
         then make_all_const false c
         else make_one_true c (c - (nat_of_P n1))%nat
       end

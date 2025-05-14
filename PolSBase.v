@@ -1,7 +1,7 @@
 (* Some code to perform simple simplification over a ring *)
 
-Require Export ZArith.
-Require Export List.
+From Stdlib Require Export ZArith.
+From Stdlib Require Export List.
 Require Import PolAuxList.
 
 Section PolSimplBase.
@@ -42,11 +42,11 @@ Variable Cdiv : C -> C -> C.
 
 (*   One positive is smaller than another *)
 
-Definition le_pos p1 p2 := Zle_bool (Zpos p1) (Zpos p2).
+Definition le_pos p1 p2 := Z.leb (Zpos p1) (Zpos p2).
 
 (* Two positives are equal *)
 
-Definition eq_pos p1 p2 := Zeq_bool (Zpos p1) (Zpos p2).
+Definition eq_pos p1 p2 := Z.eqb (Zpos p1) (Zpos p2).
 
 
 
@@ -708,8 +708,8 @@ Definition get_best (c1 c2 : candidat) : candidat :=
     match c2 with
     | None => c1
     | Some (((i2, j2), _)) =>
-      if Zeq_bool i1 i2 then if Zle_bool j2 j1 then c1 else c2
-      else if Zle_bool i1 i2 then c2 else c1
+      if Z.eqb i1 i2 then if Z.leb j2 j1 then c1 else c2
+      else if Z.leb i1 i2 then c2 else c1
     end
   end.
 
@@ -718,7 +718,7 @@ Definition get_best (c1 c2 : candidat) : candidat :=
 Definition is_possible (best : candidat) (e : env) (vars : list pos) : bool :=
   match best with
   | None => true
-  | Some ((i1, j1), _) => Zeq_bool i1 (number_of_zero_env e + Zlength vars)
+  | Some ((i1, j1), _) => Z.eqb i1 (number_of_zero_env e + Zlength vars)
   end.
 
 Definition make_candidat (init_e e : env) : candidat :=

@@ -1,5 +1,5 @@
-Require Import QArith_base Qcanon.
-Require Import Reals.
+From Stdlib Require Import QArith_base Qcanon.
+From Stdlib Require Import Reals.
 Require Import RPolS.
 Require Import PolSBase.
 Require Import PolFBase.

@@ -1,4 +1,4 @@
-Require Import ZArith.
+From Stdlib Require Import ZArith.
 Require Import NatPolS.
 Require Import PolSBase.
 Require Import PolFBase.

@@ -1,8 +1,8 @@
 Require Import PolTac.
-Require Import Arith.
-Require Import NArith.
-Require Import ZArith.
-Require Import Reals.
+From Stdlib Require Import Arith.
+From Stdlib Require Import NArith.
+From Stdlib Require Import ZArith.
+From Stdlib Require Import Reals.
 
 (* Tests for Nat *)
 Open Scope nat_scope.

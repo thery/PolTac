@@ -17,10 +17,10 @@ jobs:
     strategy:
       matrix:
         image:
-          - 'coqorg/coq:8.19'
+          - 'coqorg/coq:9.0'
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: coq-community/docker-coq-action@v1
         with:
           opam_file: 'coq-poltac.opam'

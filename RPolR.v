@@ -1,4 +1,4 @@
-Require Import QArith_base Qcanon.
+From Stdlib Require Import QArith_base Qcanon.
 Require Import RAux.
 Require Import PolSBase.
 Require Import PolAux.

@@ -1,4 +1,4 @@
-Require Export Reals.
+From Stdlib Require Export Reals.
 
 Open Scope R_scope.
 
