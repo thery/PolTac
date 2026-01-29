@@ -12,7 +12,7 @@ Follow the instructions on https://github.com/coq-community/templates to regener
 
 
 
-A set of tactics to deal with inequalities in Coq over N, Z and R:
+A set of tactics to deal with inequalities in Rocq over N, Z and R:
 
 - `pols`: simplification
 - `polf`: factorization
@@ -28,7 +28,7 @@ make all
 
 To use it:
 
-```coq
+```rocq
 Require Import PolTac.
 ```
 
