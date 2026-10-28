@@ -18,7 +18,6 @@ jobs:
     strategy:
       matrix:
         image:
-          - 'rocq/rocq-prover:rocq-prover-9.2'
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
